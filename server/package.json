@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored",
-    "production": "node dist/server.js",
+    "production": "node ./dist/server.js",
     "start": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
     "test": "jest"
   },
@@ -35,6 +35,9 @@
   "dependencies": {
     "cors": "^2.8.5",
     "eslint": "^7.8.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.26"
   }
 }

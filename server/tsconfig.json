@@ -64,7 +64,7 @@
     // "inlineSources": true,                 /* Emit the source alongside the sourcemaps within a single file; requires '--inlineSourceMap' or '--sourceMap' to be set. */
     "resolveJsonModule": true,                /* For imports JSON files in your code */
     
-    /* Experimental Options */
+    /* TypeORM Decorators */
     "experimentalDecorators": true,           /* Enables experimental support for ES7 decorators. */
     "emitDecoratorMetadata": true,            /* Enables experimental support for emitting type metadata for decorators. */
     
