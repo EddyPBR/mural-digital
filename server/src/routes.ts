@@ -1,10 +1,11 @@
-import ExampleController from '@controllers/ExampleController';
 import express from "express";
 
-const exampleController = new ExampleController();
+import UserController from "@controllers/UserController";
+
+const userController = new UserController();
 
 const routes = express.Router();
 
-routes.get("/example", exampleController.index);
+routes.post("/users", userController.create);
 
 export default routes;
