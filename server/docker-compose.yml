@@ -12,16 +12,19 @@ services:
       - "3306:3306"
     volumes:
       - .:/usr/database
+    cap_add:
+      - SYS_NICE
     restart: always
 
   server:
-    image: server
     container_name: server
+    image: server
     depends_on:
       - database
     build: .
     command: yarn start
     ports: 
-      - "3000:3000"
+      - "3001:3001"
     volumes:
-      - .:/usr/server
+      - .:/usr/app
+    restart: always
