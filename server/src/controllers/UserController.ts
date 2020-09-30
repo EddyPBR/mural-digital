@@ -4,6 +4,10 @@ import { getRepository } from "typeorm";
 import User from "@models/UserModel";
 
 class UserController {
+  async index(request: Request, response: Response) {
+    return response.send({ userID: request.userID });
+  }
+
   async create(request: Request, response: Response) {
     const repository = getRepository(User);
     const { email, password } = request.body;
