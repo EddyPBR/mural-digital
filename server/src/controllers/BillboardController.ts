@@ -3,11 +3,17 @@ import { getRepository } from "typeorm";
 
 import Billboard from "@models/billboardModel";
 
+import getDateAndHour from "../utils/getDateAndHour";
+
 class BillboardController {
   async index(request: Request, response: Response) {
     const repository = getRepository(Billboard);
 
     const billboard = await repository.find();
+
+    const newData = getDateAndHour();
+
+    console.log(newData)
 
     return response.json(billboard);
   }
@@ -16,8 +22,7 @@ class BillboardController {
     const repository = getRepository(Billboard);
     const { title, title_extended, image_url, text } = request.body;
 
-    const data = new Date();
-    const newData = data.toJSON().slice(0, 10) + " " + data.toJSON().slice(11, 19);
+    const newData = getDateAndHour();
 
     const billboard = {
       title,
@@ -43,8 +48,7 @@ class BillboardController {
       return response.sendStatus(404);
     }
 
-    const data = new Date();
-    const newData = data.toJSON().slice(0, 10) + " " + data.toJSON().slice(11, 19);
+    const newData = getDateAndHour();
 
     const billboard = {
       title,
