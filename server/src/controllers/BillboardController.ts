@@ -9,13 +9,12 @@ class BillboardController {
   async index(request: Request, response: Response) {
     const repository = getRepository(Billboard);
 
-    const billboard = await repository.find();
-
-    const newData = getDateAndHour();
-
-    console.log(newData)
-
-    return response.json(billboard);
+    try {
+      const billboard = await repository.find();
+      return response.json(billboard);
+    } catch {
+      return response.status(500);
+    }
   }
 
   async create(request: Request, response: Response) {
@@ -33,9 +32,14 @@ class BillboardController {
       updated_at: newData,
     };
 
-    await repository.save(billboard);
+    Object.values(billboard).map((value) => ( !value ? response.sendStatus(400) : false ));
 
-    return response.json(billboard);
+    try {
+      await repository.save(billboard);
+      return response.status(200).json(billboard);
+    } catch {
+      return response.sendStatus(500);
+    }
   }
 
   async update(request: Request, response: Response) {
@@ -43,7 +47,7 @@ class BillboardController {
     const { title, title_extended, image_url, text } = request.body;
     const { id } = request.params;
 
-    const exists = await repository.findOne( id );
+    const exists = await repository.findOne(id);
     if (!exists) {
       return response.sendStatus(404);
     }
@@ -58,30 +62,34 @@ class BillboardController {
       updated_at: newData,
     };
 
-    await repository.update(
-      id,
-      billboard
-    );
+    Object.values(billboard).map((value) => ( !value ? response.sendStatus(400) : false ));
 
-    return response.sendStatus(200);
+    try {
+      await repository.update(id, billboard);
+
+      const newBillboard = repository.findOne(id);
+
+      return response.status(200).json(newBillboard);
+    } catch {
+      return response.status(500);
+    }
   }
 
   async delete(request: Request, response: Response) {
     const repository = getRepository(Billboard);
     const { id } = request.params;
 
-    const exists = await repository.findOne( id );
+    const exists = await repository.findOne(id);
     if (!exists) {
       return response.sendStatus(404);
     }
 
     try {
-      await repository.delete( id );
-      return response.sendStatus(200);
+      await repository.delete(id);
+      return response.status(200).json(exists);
     } catch {
       return response.sendStatus(500);
     }
-    
   }
 }
 
