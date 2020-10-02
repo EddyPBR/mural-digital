@@ -32,6 +32,24 @@ class BillboardController {
 
     return response.json(billboard);
   }
+
+  async delete(request: Request, response: Response) {
+    const repository = getRepository(Billboard);
+    const { id } = request.params;
+
+    const exists = await repository.findOne( id );
+    if (!exists) {
+      return response.sendStatus(404);
+    }
+
+    try {
+      await repository.delete( id );
+      return response.sendStatus(200);
+    } catch {
+      return response.sendStatus(500);
+    }
+    
+  }
 }
 
 export default BillboardController;

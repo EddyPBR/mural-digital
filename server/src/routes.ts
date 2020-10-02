@@ -19,5 +19,6 @@ routes.post("/auth", authController.authenticate);
 
 routes.get("/billboard", billboard.index);
 routes.post("/billboard", billboard.create);
+routes.delete("/billboard/:id", billboard.delete);
 
 export default routes;
