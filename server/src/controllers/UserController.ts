@@ -3,6 +3,8 @@ import { getRepository } from "typeorm";
 
 import User from "@models/UserModel";
 
+import verifyObjectValues from "../utils/verifyObjectValues";
+
 class UserController {
   async index(request: Request, response: Response) {
     return response.send({ userID: request.userID });
@@ -12,18 +14,28 @@ class UserController {
     const repository = getRepository(User);
     const { email, password } = request.body;
 
+    const user = {
+      email,
+      password,
+    };
+
+    if (verifyObjectValues(user) === false) {
+      return response.sendStatus(400);
+    }
+
     const userExists = await repository.findOne({ where: { email } });
 
     if (userExists) return response.sendStatus(409);
 
-    const user = repository.create({
-      email,
-      password,
-    });
+    try {
+      repository.create(user);
 
-    await repository.save(user);
+      await repository.save(user);
 
-    return response.json(user);
+      return response.json(user);
+    } catch {
+      return response.sendStatus(500);
+    }
   }
 }
 

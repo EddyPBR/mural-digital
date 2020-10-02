@@ -4,6 +4,7 @@ import { getRepository } from "typeorm";
 import Billboard from "@models/billboardModel";
 
 import getDateAndHour from "../utils/getDateAndHour";
+import verifyObjectValues from "../utils/verifyObjectValues";
 
 class BillboardController {
   async index(request: Request, response: Response) {
@@ -32,7 +33,9 @@ class BillboardController {
       updated_at: newData,
     };
 
-    Object.values(billboard).map((value) => ( !value ? response.sendStatus(400) : false ));
+    if (verifyObjectValues(billboard) === false) {
+      return response.sendStatus(400);
+    }
 
     try {
       await repository.save(billboard);
@@ -62,7 +65,9 @@ class BillboardController {
       updated_at: newData,
     };
 
-    Object.values(billboard).map((value) => ( !value ? response.sendStatus(400) : false ));
+    if (verifyObjectValues(billboard) === false) {
+      return response.sendStatus(400);
+    }
 
     try {
       await repository.update(id, billboard);
