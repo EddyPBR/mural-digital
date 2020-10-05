@@ -14,12 +14,12 @@ class UserController {
     const repository = getRepository(User);
     const { email, password } = request.body;
 
-    const user = {
+    const data = {
       email,
       password,
     };
 
-    if (verifyObjectValues(user) === false) {
+    if (verifyObjectValues(data) === false) {
       return response.sendStatus(400);
     }
 
@@ -28,11 +28,35 @@ class UserController {
     if (userExists) return response.sendStatus(409);
 
     try {
-      repository.create(user);
+      const user = repository.create({
+        email,
+        password,
+      });
 
       await repository.save(user);
 
-      return response.json(user);
+      return response.json({
+        id: user.id,
+        email: user.email
+      });
+      
+    } catch {
+      return response.sendStatus(500);
+    }
+  }
+
+  async delete(request: Request, response: Response) {
+    const repository = getRepository(User);
+    const { id } = request.params;
+
+    const exists = await repository.findOne(id);
+    if (!exists) {
+      return response.sendStatus(404);
+    }
+
+    try {
+      await repository.delete(id);
+      return response.status(200).json(exists);
     } catch {
       return response.sendStatus(500);
     }
