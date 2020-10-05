@@ -10,9 +10,11 @@ class BillboardController {
   async index(request: Request, response: Response) {
     const repository = getRepository(Billboard);
 
+    const { id } = request.params
+
     try {
-      const billboard = await repository.find();
-      return response.json(billboard);
+      const billboard = !id ? await repository.find() : await repository.findOne(id);
+      return billboard ? response.json(billboard) : response.sendStatus(404);
     } catch {
       return response.status(500);
     }
