@@ -39,7 +39,7 @@ class UserController {
         id: user.id,
         email: user.email
       });
-      
+
     } catch {
       return response.sendStatus(500);
     }
@@ -56,7 +56,10 @@ class UserController {
 
     try {
       await repository.delete(id);
-      return response.status(200).json(exists);
+      return response.status(200).json({
+        id: exists.id,
+        email: exists.email
+      });
     } catch {
       return response.sendStatus(500);
     }
