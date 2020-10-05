@@ -74,7 +74,7 @@ class BillboardController {
     try {
       await repository.update(id, billboard);
 
-      const newBillboard = repository.findOne(id);
+      const newBillboard = await repository.findOne(id);
 
       return response.status(200).json(newBillboard);
     } catch {
