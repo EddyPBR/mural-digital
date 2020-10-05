@@ -37,11 +37,45 @@ class UserController {
 
       return response.json({
         id: user.id,
-        email: user.email
+        email: user.email,
       });
-
     } catch {
       return response.sendStatus(500);
+    }
+  }
+
+  async update(request: Request, response: Response) {
+    const repository = getRepository(User);
+    const { email, password } = request.body;
+    const id = request.params;
+
+    const exists = await repository.findOne(id);
+    if (!exists) {
+      return response.sendStatus(404);
+    }
+
+    const data = {
+      email,
+      password,
+    };
+
+    if (verifyObjectValues(data) === false) {
+      return response.sendStatus(400);
+    }
+
+    try {
+      const user = repository.create({
+        email,
+        password,
+      });
+
+      await repository.update(id, user);
+
+      const newBillboard = await repository.findOne(id);
+
+      return response.status(200).json(newBillboard);
+    } catch {
+      return response.status(500);
     }
   }
 
@@ -58,7 +92,7 @@ class UserController {
       await repository.delete(id);
       return response.status(200).json({
         id: exists.id,
-        email: exists.email
+        email: exists.email,
       });
     } catch {
       return response.sendStatus(500);
