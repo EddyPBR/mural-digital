@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img alt="mural digital" src=".github/Home.png" height="320px" /> <br /> <br />
+    <img alt="mural digital" src=".github/icone.png" height="320px" /> <br /> <br />
     Node.js | React JS | MySQL
 </h1>
 
@@ -52,7 +52,7 @@ projeto e ver o protótipo de interface basta acessar este
 
 
 <p align="center">
-  <img alt="mural-digital" src=".github/Home.png" margin-right="20px" />
+  <img alt="mural-digital" src=".github/home.png" margin-right="20px" />
   <img alt="mural-digital" src=".github/anuncio.png" />
   <img alt="mural-digital" src=".github/login-admin.png" />
   <img alt="mural-digital" src=".github/lista-de-anuncios.png" />
