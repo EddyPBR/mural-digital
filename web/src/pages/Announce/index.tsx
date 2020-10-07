@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import HomeButtom from "../../components/HomeButton";
+
 import Img from "../../assets/images/Woman.svg"; // need remove this after integration with API
 
 const Announce: React.FC = () => {
@@ -34,6 +36,7 @@ const Announce: React.FC = () => {
           </Text>
         </Container>
       </Content>
+      <HomeButtom />
     </Announcement>
   );
 };
