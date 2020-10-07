@@ -13,10 +13,17 @@ export const GlobalStyle = createGlobalStyle`
     --color-secundary: #3D3D90;
     --color-secundary-dark: #2E2E7A;
     --color-secundary-darker: #212163;
-    --color-title: #2F2E41;
-    --color-text: #1E263E;
+    --color-title: #192A43;
+    --color-text: #3B4A60;
     font-size: 60%;
   }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+  } 
 
   html,
   body,
