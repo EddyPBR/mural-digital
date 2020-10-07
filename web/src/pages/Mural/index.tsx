@@ -76,7 +76,6 @@ const Main = styled.main`
   width: 90vw;
   max-width: 43.0rem;
   margin-right: 15rem;
-  margin-top: 6rem;
 
   @media(max-width: 1280px) {
     margin-right: 15rem;
@@ -99,6 +98,10 @@ const Title = styled.h1`
   font: 700 3.6rem "Open Sans", sans-serif;
   color: var(--color-title);
   margin-top: 0;
+
+  @media(max-width: 1024px) {
+    margin-top: 3rem;
+  }
 `;
 
 const Text = styled.p`
@@ -110,7 +113,7 @@ const WomanImage = styled.img`
   position: absolute;
   right: 50%;
   margin-right: 13rem;
-  top: 26rem;
+  top: 20rem;
   width: 90vw;
   max-width: 52.2rem;
 
@@ -126,7 +129,7 @@ const WomanImage = styled.img`
 
   @media (min-height: 740px) {
     top: 50%;
-    margin-top: -8rem;
+    margin-top: -10rem;
   }
 `
 
@@ -135,7 +138,7 @@ const GuyImage = styled.img`
   right: 50%;
   left: 50%;
   margin-left: 440px;
-  top: 29rem;
+  top: 24rem;
   width: 19.0rem;
 
   @media(max-width: 1280px) {
@@ -144,7 +147,7 @@ const GuyImage = styled.img`
 
   @media (min-height: 740px) {
     top: 50%;
-    margin-top: -4rem;
+    margin-top: -6rem;
   }
 `
 
@@ -152,7 +155,6 @@ const Carousel = styled.div`
   height: 100vh;
   max-height: 60rem;
   width: 41.0rem;
-  margin-top: 6rem;
   overflow-y: scroll;
 
   && > div {
@@ -160,7 +162,7 @@ const Carousel = styled.div`
   }
 
   && > div:nth-child(1) {
-    margin: 0;
+    margin-top: 1.5rem;
   }
 
   @media(max-width: 1024px){

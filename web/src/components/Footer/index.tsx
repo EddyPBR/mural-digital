@@ -5,7 +5,7 @@ const Footer: React.FC = () => {
   return (
     <FooterContent>
       <span>Desenvolvido por: </span>
-      <a href="https://www.linkedin.com/in/edvaldojuniordev/" target="_blank" rel="noopener noreferrer">Edvaldo Junior</a>
+      <a href="https://www.instagram.com/edvaldo_junior_dev/" target="_blank" rel="noopener noreferrer">Edvaldo Junior</a>
     </FooterContent>
   );
 };
