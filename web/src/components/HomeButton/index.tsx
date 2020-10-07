@@ -1,12 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 import { FaHome } from "react-icons/fa";
 
+interface AnimateProp {
+  animate: boolean;
+}
+
 const HomeButton: React.FC = () => {
+  const [showScroll, setShowScroll] = useState(false);
+
+  const checkScrollTop = () => {
+    if (!showScroll && window.pageYOffset > 400) {
+      setShowScroll(true);
+    } else if (showScroll && window.pageYOffset <= 400) {
+      setShowScroll(false);
+    }
+  };
+
+  window.addEventListener("scroll", checkScrollTop);
+
   return (
-    <Button>
+    <Button animate={showScroll}>
       <Link to="/">
         <FaHome size={32} />
       </Link>
@@ -14,7 +30,7 @@ const HomeButton: React.FC = () => {
   );
 };
 
-const Button = styled.nav`
+const Button = styled.nav<AnimateProp>`
   width: 6rem;
   height: 6rem;
   border-radius: 50%;
@@ -28,8 +44,11 @@ const Button = styled.nav`
   right: 2rem;
   bottom: 4rem;
 
-  transition: .3s filter;
+  transition: 0.3s filter;
   z-index: 10;
+  opacity: ${(props) => (props.animate ? 1 : 0)};
+
+  animation: ${(props) => (props.animate ? showButton : hideButton )} 0.5s;
 
   &&:hover {
     filter: brightness(1.1);
@@ -45,6 +64,30 @@ const Button = styled.nav`
 
     color: var(--color-background);
     text-decoration: none;
+  }
+`;
+
+const showButton = keyframes`
+  from {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+`;
+
+const hideButton = keyframes`
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
   }
 `;
 
