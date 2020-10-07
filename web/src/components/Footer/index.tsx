@@ -11,8 +11,6 @@ const Footer: React.FC = () => {
 };
 
 const FooterContent = styled.div`
-  position: absolute;
-  bottom: 0;
   width: 100%;
   height: 3rem;
   background: linear-gradient(92.57deg, #2F2E41 0%, #3F3D56 100%);
