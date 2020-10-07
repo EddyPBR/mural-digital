@@ -49,7 +49,7 @@ const Mural: React.FC = () => {
 };
 
 const Container = styled.div`
-  min-height: 100vh;
+  min-height: calc(100vh - 3rem);
   width: 90vw;
   max-width: 1170px;
 
@@ -67,7 +67,6 @@ const Container = styled.div`
   }
 
   @media (min-height: 740px) {
-    min-height: unset;
     align-items: center;
   }
 `;
@@ -88,9 +87,10 @@ const Main = styled.main`
     max-width: unset;
   }
 
-  @media (min-height: 740px) {
+  @media (min-height: 740px) and (min-width: 1024px) {
     align-items: center;
-    align-self: flex-start
+    align-self: center;
+    margin-bottom: 40rem;
   }
 `;
 
@@ -153,7 +153,7 @@ const GuyImage = styled.img`
 
 const Carousel = styled.div`
   height: 100vh;
-  max-height: 60rem;
+  max-height: 62rem;
   width: 41.0rem;
   overflow-y: scroll;
 
