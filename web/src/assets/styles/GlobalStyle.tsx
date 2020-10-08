@@ -42,6 +42,12 @@ export const GlobalStyle = createGlobalStyle`
     justify-content: center;
   }
 
+  input, textarea, select, button, textarea:focus, input:focus, select:focus, button:focus {
+    box-shadow: 0 0 0 0;
+    border: 0 none;
+    outline: 0;
+  }
+
   @media (min-width: 700px) {
     :root {
       font-size: 62.5%;
