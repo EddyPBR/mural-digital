@@ -52,8 +52,9 @@ const Button = styled.nav<AnimateProp>`
   transition: 0.3s filter;
   z-index: 10;
   opacity: ${(props) => (props.animate ? 1 : 0)};
+  overflow: hidden;
 
-  animation: ${(props) => (props.animate ? showButton : hideButton )} 0.5s;
+  animation: ${(props) => (props.animate ? showButton : hideButton )} 0.5s forwards;
 
   &&:hover {
     filter: brightness(1.1);
@@ -76,11 +77,15 @@ const showButton = keyframes`
   from {
     opacity: 0;
     transform: translate3d(100%, 0, 0);
+    width: 0;
+    height: 0;
   }
 
   to {
     opacity: 1;
     transform: translate3d(0, 0, 0);
+    width: 6rem;
+    height: 6rem;
   }
 `;
 
@@ -88,11 +93,15 @@ const hideButton = keyframes`
   from {
     opacity: 1;
     transform: translate3d(0, 0, 0);
+    width: 6rem;
+    height: 6rem;
   }
 
   to {
     opacity: 0;
     transform: translate3d(100%, 0, 0);
+    width: 0;
+    height: 0;
   }
 `;
 
