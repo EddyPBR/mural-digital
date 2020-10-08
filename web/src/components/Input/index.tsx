@@ -19,7 +19,7 @@ const Fieldset = styled.fieldset`
   width: 90%;
   display: flex;
   flex-direction: column;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   border: none;
 `;
 
