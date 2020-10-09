@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { FaTrash, FaEdit, FaPlusCircle } from "react-icons/fa";
+import { FaPlusCircle } from "react-icons/fa";
 
 import AdminNavbar from "../../components/AdminNavbar";
+import TableRow from "../../components/TableRow";
 
 const AnnounceList: React.FC = () => {
   return (
@@ -30,125 +31,11 @@ const AnnounceList: React.FC = () => {
             </tr>
           </TableHeader>
           <TableBody>
-            <tr>
-              <td>091282195218213</td>
-              <td>Título do post de anúncio</td>
-              <td>01/01/2020</td>
-              <td>
-                <FaEdit size={22} />
-              </td>
-              <td>
-                <FaTrash size={18} />
-              </td>
-            </tr>
-
-            <tr>
-              <td>091282195218213</td>
-              <td>Título do post de anúncio</td>
-              <td>01/01/2020</td>
-              <td>
-                <FaEdit size={22} />
-              </td>
-              <td>
-                <FaTrash size={18} />
-              </td>
-            </tr>
-
-            <tr>
-              <td>091282195218213</td>
-              <td>Título do post de anúncio</td>
-              <td>01/01/2020</td>
-              <td>
-                <FaEdit size={22} />
-              </td>
-              <td>
-                <FaTrash size={18} />
-              </td>
-            </tr>
-
-            <tr>
-              <td>091282195218213</td>
-              <td>Título do post de anúncio</td>
-              <td>01/01/2020</td>
-              <td>
-                <FaEdit size={22} />
-              </td>
-              <td>
-                <FaTrash size={18} />
-              </td>
-            </tr>
-
-            <tr>
-              <td>091282195218213</td>
-              <td>Título do post de anúncio</td>
-              <td>01/01/2020</td>
-              <td>
-                <FaEdit size={22} />
-              </td>
-              <td>
-                <FaTrash size={18} />
-              </td>
-            </tr>
-
-            <tr>
-              <td>091282195218213</td>
-              <td>Título do post de anúncio</td>
-              <td>01/01/2020</td>
-              <td>
-                <FaEdit size={22} />
-              </td>
-              <td>
-                <FaTrash size={18} />
-              </td>
-            </tr>
-
-            <tr>
-              <td>091282195218213</td>
-              <td>Título do post de anúncio</td>
-              <td>01/01/2020</td>
-              <td>
-                <FaEdit size={22} />
-              </td>
-              <td>
-                <FaTrash size={18} />
-              </td>
-            </tr>
-
-            <tr>
-              <td>091282195218213</td>
-              <td>Título do post de anúncio</td>
-              <td>01/01/2020</td>
-              <td>
-                <FaEdit size={22} />
-              </td>
-              <td>
-                <FaTrash size={18} />
-              </td>
-            </tr>
-
-            <tr>
-              <td>091282195218213</td>
-              <td>Título do post de anúncio</td>
-              <td>01/01/2020</td>
-              <td>
-                <FaEdit size={22} />
-              </td>
-              <td>
-                <FaTrash size={18} />
-              </td>
-            </tr>
-
-            <tr>
-              <td>091282195218213</td>
-              <td>Título do post de anúncio</td>
-              <td>01/01/2020</td>
-              <td>
-                <FaEdit size={22} />
-              </td>
-              <td>
-                <FaTrash size={18} />
-              </td>
-            </tr>
+            <TableRow 
+              id="091282195218213"
+              title="Título do post de anúncio"
+              date="01/01/2020"
+            />
           </TableBody>
         </Table>
       </Announce>
@@ -215,61 +102,6 @@ const TableBody = styled.tbody`
   max-height: 50vh;
   overflow-y: scroll;
   display: block;
-
-  && > tr {
-    width: 100%;
-    height: 7rem;
-    background-color: #fff;
-    display: grid;
-    grid-template-columns: 2fr 2fr 1fr 1fr 1fr;
-    gap: 3rem;
-    border-radius: 1rem;
-    margin-bottom: 3rem;
-
-    table-layout: fixed;
-  }
-
-  && > tr > td {
-    font: 400 1.6rem/2.4rem "Roboto", sans-serif;
-    color: var(--color-text);
-    border-radius: 1rem;
-    border-bottom: 0.1rem solid #c8c9df;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  && > tr > td:hover {
-    transition: 1s;
-    border: 0.1rem solid #c8c9df;
-  }
-
-  && > tr > td:nth-child(1) {
-    color: var(--color-secundary-light);
-  }
-
-  && > tr > td:nth-child(4) {
-    color: #f38230;
-  }
-
-  && > tr > td:nth-child(5) {
-    color: #d5151a;
-  }
-
-  && > tr > td:nth-child(4):hover {
-    background: rgba(253, 216, 53, 0.4);
-    border-color: rgba(253, 216, 53, 0.4);
-    transition: 0.3s;
-    cursor: pointer;
-  }
-
-  && > tr > td:nth-child(5):hover {
-    background: rgba(213, 21, 26, 0.2);
-    border-color: rgba(213, 21, 26, 0.2);
-    transition: 0.3s;
-    cursor: pointer;
-  }
 `;
 
 const Button = styled.a`
