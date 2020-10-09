@@ -14,7 +14,7 @@ const Routes: React.FC = () => {
       <Route path="/" exact component={Mural} />
       <Route path="/announces/:id" exact component={Announce} />
       <Route path="/admin/" exact component={Admin} />
-      <Route path="/admin/announce-list" exact component={AnnounceList} />
+      <Route path="/admin/announces" exact component={AnnounceList} />
       <Footer />
     </BrowserRouter>
   );

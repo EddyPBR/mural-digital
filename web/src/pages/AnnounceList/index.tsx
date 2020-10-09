@@ -1,157 +1,168 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import { FaTrash, FaEdit, FaPlusCircle } from "react-icons/fa";
+
+import AdminNavbar from "../../components/AdminNavbar";
 
 const AnnounceList: React.FC = () => {
   return (
-    <Announce>
-      <Row>
-        <Title>Lista do mural</Title>
-        <Button><FaPlusCircle size={18} />Adicionar</Button>
-      </Row>
-      <Table>
-        <TableHeader>
-          <tr>
-            <th>Identificação</th>
-            <th>Título</th>
-            <th>Criado em</th>
-            <th>Editar</th>
-            <th>Excluir</th>
-          </tr>
-        </TableHeader>
-        <TableBody>
-          <tr>
-            <td>091282195218213</td>
-            <td>Título do post de anúncio</td>
-            <td>01/01/2020</td>
-            <td>
-              <FaEdit size={22} />
-            </td>
-            <td>
-              <FaTrash size={18} />
-            </td>
-          </tr>
+    <>
+      <AdminNavbar />
+      <Announce>
+        <Row>
+          <Title>Lista do mural</Title>
+          <Button>
+            <Link to="/admin/announces/add">
+              <FaPlusCircle size={18} />
+              Adicionar
+            </Link>
+          </Button>
+        </Row>
+        <Table>
+          <TableHeader>
+            <tr>
+              <th>Identificação</th>
+              <th>Título</th>
+              <th>Criado em</th>
+              <th>Editar</th>
+              <th>Excluir</th>
+            </tr>
+          </TableHeader>
+          <TableBody>
+            <tr>
+              <td>091282195218213</td>
+              <td>Título do post de anúncio</td>
+              <td>01/01/2020</td>
+              <td>
+                <FaEdit size={22} />
+              </td>
+              <td>
+                <FaTrash size={18} />
+              </td>
+            </tr>
 
-          <tr>
-            <td>091282195218213</td>
-            <td>Título do post de anúncio</td>
-            <td>01/01/2020</td>
-            <td>
-              <FaEdit size={22} />
-            </td>
-            <td>
-              <FaTrash size={18} />
-            </td>
-          </tr>
+            <tr>
+              <td>091282195218213</td>
+              <td>Título do post de anúncio</td>
+              <td>01/01/2020</td>
+              <td>
+                <FaEdit size={22} />
+              </td>
+              <td>
+                <FaTrash size={18} />
+              </td>
+            </tr>
 
-          <tr>
-            <td>091282195218213</td>
-            <td>Título do post de anúncio</td>
-            <td>01/01/2020</td>
-            <td>
-              <FaEdit size={22} />
-            </td>
-            <td>
-              <FaTrash size={18} />
-            </td>
-          </tr>
+            <tr>
+              <td>091282195218213</td>
+              <td>Título do post de anúncio</td>
+              <td>01/01/2020</td>
+              <td>
+                <FaEdit size={22} />
+              </td>
+              <td>
+                <FaTrash size={18} />
+              </td>
+            </tr>
 
-          <tr>
-            <td>091282195218213</td>
-            <td>Título do post de anúncio</td>
-            <td>01/01/2020</td>
-            <td>
-              <FaEdit size={22} />
-            </td>
-            <td>
-              <FaTrash size={18} />
-            </td>
-          </tr>
+            <tr>
+              <td>091282195218213</td>
+              <td>Título do post de anúncio</td>
+              <td>01/01/2020</td>
+              <td>
+                <FaEdit size={22} />
+              </td>
+              <td>
+                <FaTrash size={18} />
+              </td>
+            </tr>
 
-          <tr>
-            <td>091282195218213</td>
-            <td>Título do post de anúncio</td>
-            <td>01/01/2020</td>
-            <td>
-              <FaEdit size={22} />
-            </td>
-            <td>
-              <FaTrash size={18} />
-            </td>
-          </tr>
+            <tr>
+              <td>091282195218213</td>
+              <td>Título do post de anúncio</td>
+              <td>01/01/2020</td>
+              <td>
+                <FaEdit size={22} />
+              </td>
+              <td>
+                <FaTrash size={18} />
+              </td>
+            </tr>
 
-          <tr>
-            <td>091282195218213</td>
-            <td>Título do post de anúncio</td>
-            <td>01/01/2020</td>
-            <td>
-              <FaEdit size={22} />
-            </td>
-            <td>
-              <FaTrash size={18} />
-            </td>
-          </tr>
+            <tr>
+              <td>091282195218213</td>
+              <td>Título do post de anúncio</td>
+              <td>01/01/2020</td>
+              <td>
+                <FaEdit size={22} />
+              </td>
+              <td>
+                <FaTrash size={18} />
+              </td>
+            </tr>
 
-          <tr>
-            <td>091282195218213</td>
-            <td>Título do post de anúncio</td>
-            <td>01/01/2020</td>
-            <td>
-              <FaEdit size={22} />
-            </td>
-            <td>
-              <FaTrash size={18} />
-            </td>
-          </tr>
+            <tr>
+              <td>091282195218213</td>
+              <td>Título do post de anúncio</td>
+              <td>01/01/2020</td>
+              <td>
+                <FaEdit size={22} />
+              </td>
+              <td>
+                <FaTrash size={18} />
+              </td>
+            </tr>
 
-          <tr>
-            <td>091282195218213</td>
-            <td>Título do post de anúncio</td>
-            <td>01/01/2020</td>
-            <td>
-              <FaEdit size={22} />
-            </td>
-            <td>
-              <FaTrash size={18} />
-            </td>
-          </tr>
+            <tr>
+              <td>091282195218213</td>
+              <td>Título do post de anúncio</td>
+              <td>01/01/2020</td>
+              <td>
+                <FaEdit size={22} />
+              </td>
+              <td>
+                <FaTrash size={18} />
+              </td>
+            </tr>
 
-          <tr>
-            <td>091282195218213</td>
-            <td>Título do post de anúncio</td>
-            <td>01/01/2020</td>
-            <td>
-              <FaEdit size={22} />
-            </td>
-            <td>
-              <FaTrash size={18} />
-            </td>
-          </tr>
+            <tr>
+              <td>091282195218213</td>
+              <td>Título do post de anúncio</td>
+              <td>01/01/2020</td>
+              <td>
+                <FaEdit size={22} />
+              </td>
+              <td>
+                <FaTrash size={18} />
+              </td>
+            </tr>
 
-          <tr>
-            <td>091282195218213</td>
-            <td>Título do post de anúncio</td>
-            <td>01/01/2020</td>
-            <td>
-              <FaEdit size={22} />
-            </td>
-            <td>
-              <FaTrash size={18} />
-            </td>
-          </tr>
-        </TableBody>
-      </Table>
-    </Announce>
+            <tr>
+              <td>091282195218213</td>
+              <td>Título do post de anúncio</td>
+              <td>01/01/2020</td>
+              <td>
+                <FaEdit size={22} />
+              </td>
+              <td>
+                <FaTrash size={18} />
+              </td>
+            </tr>
+          </TableBody>
+        </Table>
+      </Announce>
+    </>
   );
 };
 
 const Announce = styled.div`
-  min-height: calc(100vh - 6rem - 3rem);
+  min-height: calc(100vh - 7rem - 3rem - 3rem);
   display: flex;
   flex-direction: column;
   width: 90vw;
   max-width: 103rem;
-  margin-top: 60px;
+  margin-top: 3rem;
   justify-self: center;
   align-self: center;
 `;
@@ -159,7 +170,7 @@ const Announce = styled.div`
 const Row = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 `;
 
 const Title = styled.h1`
@@ -201,7 +212,7 @@ const TableHeader = styled.thead`
 `;
 
 const TableBody = styled.tbody`
-  max-height: 60vh;
+  max-height: 50vh;
   overflow-y: scroll;
   display: block;
 
@@ -247,8 +258,8 @@ const TableBody = styled.tbody`
   }
 
   && > tr > td:nth-child(4):hover {
-    background: rgba(253, 216, 53, 0.2);
-    border-color: rgba(253, 216, 53, 0.2);
+    background: rgba(253, 216, 53, 0.4);
+    border-color: rgba(253, 216, 53, 0.4);
     transition: 0.3s;
     cursor: pointer;
   }
@@ -261,15 +272,13 @@ const TableBody = styled.tbody`
   }
 `;
 
-const Button = styled.button`
+const Button = styled.a`
   width: 90vw;
   max-width: 17rem;
   height: 5rem;
   margin-top: 1rem;
   margin-bottom: 3rem;
   background: linear-gradient(94.19deg, #50ea43 0%, #499a41 100%);
-  font: 700 1.6rem "Open Sans", sans-serif;
-  color: var(--color-background);
   box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.5);
   border-radius: 10px;
   transition: 0.2s filter, 0.2s box-shadow;
@@ -291,8 +300,21 @@ const Button = styled.button`
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8);
   }
 
-  && > svg {
-    margin-right: .8rem;
+  && > a {
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    font: 700 1.6rem "Open Sans", sans-serif;
+    color: var(--color-background);
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  && > a > svg {
+    margin-right: 0.8rem;
   }
 
   @media (max-width: 520px) {
