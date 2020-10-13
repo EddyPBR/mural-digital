@@ -21,6 +21,7 @@ const Fieldset = styled.fieldset`
   flex-direction: column;
   margin-bottom: 2rem;
   border: none;
+  padding: 0;
 `;
 
 const Label = styled.label`
@@ -31,7 +32,7 @@ const Label = styled.label`
 
 const InputPlace = styled.input`
   width: 100%;
-  max-width: 37rem;
+  max-width: 90vw;
   height: 4.4rem;
   background-color: #FAFAFA;
   border: 1px solid #C8C9DF;
@@ -41,9 +42,10 @@ const InputPlace = styled.input`
   font: 400 1.4rem "Roboto", sans-serif; 
 
   &&:focus {
-    border: 1px solid #BABCED;
-    background-color: #F0F3F4;
+    border: 1px solid #A5CCE8;
+    background-color: #FFF;
   }
+
 `;
 
 export default Input;
