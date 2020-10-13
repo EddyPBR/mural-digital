@@ -7,7 +7,7 @@ const ImageInputRadio: React.FC = () => {
   return (
     <Radio>
       <Box>
-        <input type="radio" name="image" value="0" checked />
+        <input type="radio" name="image" value="0" />
         <img src={ExampleImage} alt="Diretoria" />
       </Box>
       <InputLegend>Diretoria</InputLegend>

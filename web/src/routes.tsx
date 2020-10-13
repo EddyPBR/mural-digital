@@ -5,6 +5,7 @@ import Mural from "./pages/Mural";
 import Announce from "./pages/Announce";
 import Admin from "./pages/Admin";
 import AdminAnnounces from "./pages/AdminAnnounces";
+import AddAnnounce from "./pages/AddAnnounce";
 
 import Footer from "./components/Footer";
 
@@ -15,6 +16,7 @@ const Routes: React.FC = () => {
       <Route path="/announces/:id" exact component={Announce} />
       <Route path="/admin/" exact component={Admin} />
       <Route path="/admin/announces" exact component={AdminAnnounces} />
+      <Route path="/admin/announces/add" exact component={AddAnnounce} />
       <Footer />
     </BrowserRouter>
   );
