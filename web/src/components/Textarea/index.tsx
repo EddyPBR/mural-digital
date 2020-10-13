@@ -16,7 +16,8 @@ const Textarea: React.FC<TextareaProps> = ({ label, name, ...rest }) => {
 }
 
 const Fieldset = styled.fieldset`
-  width: 90%;
+  width: 100%;
+  max-width: 90vw;
   display: flex;
   flex-direction: column;
   border: none;
@@ -32,7 +33,7 @@ const Label = styled.label`
 const InputPlace = styled.textarea`
   width: 100%;
   max-width: 90vw;
-  min-height: 30rem;
+  min-height: 29rem;
   background-color: #FAFAFA;
   border: 1px solid #C8C9DF;
   border-radius: .5rem;

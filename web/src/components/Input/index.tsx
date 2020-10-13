@@ -16,7 +16,8 @@ const Input: React.FC<InputProps> = ({ label, name, type, ...rest }) => {
 }
 
 const Fieldset = styled.fieldset`
-  width: 90%;
+  width: 100%;
+  max-width: 90vw;
   display: flex;
   flex-direction: column;
   margin-bottom: 2rem;
