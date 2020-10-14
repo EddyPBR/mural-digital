@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import woman from "../../assets/images/Woman.svg";
@@ -6,7 +6,24 @@ import guy from "../../assets/images/Guy.svg";
 
 import AnnounceCard from "../../components/AnnounceCard";
 
+import api from "../../services/api";
+
+interface Announce {
+  id: string,
+  title: string,
+  text: string,
+  updated_At: string
+}
+
 const Mural: React.FC = () => {
+  const [announces, setAnnounces] = useState<Announce[]>([]);
+
+  useEffect(() => {
+    api.get("/billboard/").then(response => {
+      setAnnounces(response.data);
+    });
+  }, []);
+
   return (
     <Container>
       <WomanImage src={woman} alt="Mulher de costas selecionando janelas em um website" />
@@ -18,30 +35,15 @@ const Mural: React.FC = () => {
         </Text>
       </Main>
       <Carousel>
-        <AnnounceCard 
-          id="qwhjeqfw1io4523k21j1fkwq"
-          title="Sejam todos bem-vindos!"
-          text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse et lectus lectus. Nunc massa odio, aliquet ut nibh malesuada, luctus finibus ipsum."
-          date="01/02/2020"
-        />
-        <AnnounceCard 
-          id="qwhjeqfw1io4523k21j1fkwq"
-          title="Sejam todos bem-vindos!"
-          text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse et lectus lectus. Nunc massa odio, aliquet ut nibh malesuada, luctus finibus ipsum."
-          date="01/02/2020"
-        />
-        <AnnounceCard 
-          id="qwhjeqfw1io4523k21j1fkwq"
-          title="Sejam todos bem-vindos!"
-          text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse et lectus lectus. Nunc massa odio, aliquet ut nibh malesuada, luctus finibus ipsum."
-          date="01/02/2020"
-        />
-        <AnnounceCard 
-          id="qwhjeqfw1io4523k21j1fkwq"
-          title="Sejam todos bem-vindos!"
-          text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse et lectus lectus. Nunc massa odio, aliquet ut nibh malesuada, luctus finibus ipsum."
-          date="01/02/2020"
-        />
+        {announces.map( (announce) => (
+          <AnnounceCard
+            key={announce.id}
+            id={announce.id}
+            title={announce.title}
+            text={announce.text}
+            date={announce.updated_At}
+          />
+        ))}
       </Carousel>
       <GuyImage src={guy} alt="Homem com mão no bolso olhando o smartphone" />
     </Container>
@@ -149,7 +151,7 @@ const GuyImage = styled.img`
     top: 50%;
     margin-top: -6rem;
   }
-`
+`;
 
 const Carousel = styled.div`
   height: 100vh;
