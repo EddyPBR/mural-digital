@@ -104,7 +104,7 @@ const TableBody = styled.tbody`
   display: block;
 `;
 
-const Button = styled.a`
+const Button = styled.div`
   width: 90vw;
   max-width: 17rem;
   height: 5rem;
