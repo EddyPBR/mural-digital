@@ -36,14 +36,14 @@ const TableRow: React.FC<TableRow> = (props) => {
       <td>{title}</td>
       <td>{date}</td>
       <td>
-        <Link to={`/announces/edit/${id}`}>
+        <Link to={`/admin/announces/update/${id}`}>
           <FaEdit size={22} />
         </Link>
       </td>
       <td>
         <Link
           onClick={(event) => handleShowDeleteBox(event)}
-          to={`/announces/delete/${id}`}
+          to={`/admin/announces/delete/${id}`}
         >
           <FaTrash size={18} />
         </Link>

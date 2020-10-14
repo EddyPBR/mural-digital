@@ -6,12 +6,20 @@ import Input from "../../components/Input";
 import Textarea from "../../components/Textarea";
 import ImageInputRadio from "../../components/ImageInputRadio";
 
-const AddAnnounce: React.FC = () => {
+interface AnnounceParams {
+  id: string;
+}
+
+const UpdateAnnounce: React.FC<AnnounceParams> = (params) => {
+  const { id } = params;
+
+  // create a API call
+
   const [frontTitle, setFrontTitle] = useState("");
   const [textTitle, setTextTitle] = useState("");
   const [text, setText] = useState("");
 
-  const handleSaveAnnounce = (event: FormEvent) => {
+  const handleUpdateAnnounce = (event: FormEvent) => {
     event.preventDefault();
 
     const data = {
@@ -20,7 +28,8 @@ const AddAnnounce: React.FC = () => {
       text,
     }
 
-    console.log(data);
+    // create a API call
+    alert(data);
   }
    
   return (
@@ -63,7 +72,7 @@ const AddAnnounce: React.FC = () => {
             </List>
           </Column>
         </AnnounceForm>
-        <Button type="button" onClick={(event) => handleSaveAnnounce(event)}>Cadastrar</Button>
+        <Button type="button" onClick={(event) => handleUpdateAnnounce(event)}>Atualizar</Button>
       </Announce>
     </>
   );
@@ -165,7 +174,7 @@ const Button = styled.button`
   width: 90vw;
   max-width: 17rem;
   height: 5rem;
-  background: linear-gradient(90deg, #1FF20D 0%, #3F9438 100%);
+  background: linear-gradient(103.5deg, #F38230 23.24%, #F9A825 74.81%);
   font: 400 1.8rem "Roboto", sans-serif;
   color: #fff;
   box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.5);
@@ -196,4 +205,4 @@ const Button = styled.button`
   }
 `;
 
-export default AddAnnounce;
+export default UpdateAnnounce;
