@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import HashLoader from "react-spinners/HashLoader";
 
 import woman from "../../assets/images/Woman.svg";
@@ -160,18 +160,6 @@ const GuyImage = styled.img`
   }
 `;
 
-const LoaderArea = styled.div`
-  width: 100%;
-  height: 80%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  @media(max-width: 1024px) {
-    height: 22rem;
-  }
-`
-
 const Carousel = styled.div`
   height: 100vh;
   max-height: 62rem;
@@ -208,5 +196,28 @@ const Carousel = styled.div`
     margin-top: 6rem;
   }
 `;
+
+const OpacityAnimation = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const LoaderArea = styled.div`
+  width: 100%;
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  animation: ${OpacityAnimation} 2s linear;
+
+  @media(max-width: 1024px) {
+    height: 22rem;
+  }
+`
 
 export default Mural;
