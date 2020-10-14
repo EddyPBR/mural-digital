@@ -1,39 +1,74 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useState, useEffect } from "react";
+import { match } from "react-router-dom";
+import styled, { keyframes } from "styled-components";
+import BounceLoader from "react-spinners/BounceLoader";
 
 import HomeButtom from "../../components/HomeButton";
 
-import Img from "../../assets/images/Woman.svg"; // need remove this after integration with API
+import api from "../../services/api";
 
-const Announce: React.FC = () => {
+interface Announce {
+  id: string,
+  title: string,
+  title_extended: string,
+  text: string,
+  image_url: string,
+  updated_at: string
+}
+
+interface AnnounceParams {
+  match: match<{id: string}>
+}
+
+const Announce: React.FC<AnnounceParams> = (props) => {
+  const id = props.match?.params.id;
+
+  const formatedDate = (date: string) => {
+    if (!date) return;
+    const year = date.slice(0, 4);
+    const day = date.slice(8, 10);
+    const month = date.slice(5, 7);
+    return (day + "-" + month + "-" + year);
+  }
+
+  const [announce, setAnnounce] = useState({} as Announce);
+
+  useEffect(() => {
+    api.get(`/billboard/${id}`).then(response => {
+      setAnnounce(response.data);
+    });
+  }, [id]);
+  
+  const [isLoading, setIsLoading] = useState(true);
+  
+  useEffect( () => {
+    if(Object.keys(announce).length) {
+      setIsLoading(false)
+    }
+  });
+  
+  if(isLoading){
+    return (
+      <LoadingPage>
+        <BounceLoader size={160} color={"#E52F34"} />
+        <Text>carregando...</Text>
+      </LoadingPage>
+    )
+  }
+
   return (
     <Announcement>
       <Header>
-        <Image src={Img} alt="Sejam todos bem-vindos!" />
+        <Image src={announce.image_url} alt="Sejam todos bem-vindos!" />
         <HeaderContent>
-          <Title>Sejam todos bem-vindos!</Title>
-          <Date>28/09/2020</Date>
+          <Title>{announce.title}</Title>
+          <Date>{formatedDate(announce.updated_at)}</Date>
         </HeaderContent>
       </Header>
       <Content>
         <Container>
-          <SecundaryTitle>
-            Bem-vindos ao sistema de anuncios da Rally Motos!
-          </SecundaryTitle>
-          <Text>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
-            rutrum pellentesque nisl, eget tincidunt purus congue nec. Lorem
-            ipsum dolor sit amet, consectetur adipiscing elit. Nunc rutrum dolor
-            ac volutpat maximus. Aliquam bibendum, lacus a tristique efficitur,
-            neque lorem dapibus turpis, et laoreet sem nulla eu dolor.
-          </Text>
-          <Text>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
-            rutrum pellentesque nisl, eget tincidunt purus congue nec. Lorem
-            ipsum dolor sit amet, consectetur adipiscing elit. Nunc rutrum dolor
-            ac volutpat maximus. Aliquam bibendum, lacus a tristique efficitur,
-            neque lorem dapibus turpis, et laoreet sem nulla eu dolor.
-          </Text>
+          <SecundaryTitle>{announce.title_extended}</SecundaryTitle>
+          <Text>{announce.text}</Text>
         </Container>
       </Content>
       <HomeButtom />
@@ -115,7 +150,6 @@ const Date = styled.span`
 const Content = styled.main`
   max-width: 100.3rem;
   width: 90vw;
-  /* min-width: 50rem; */
   background-color: #FFF;
   margin-bottom: 6rem;
   border-radius: 0 0 6rem 6rem;
@@ -165,6 +199,30 @@ const Text = styled.p`
   font: 400 1.8rem/3.2rem "Roboto", sans-serif;
   color: var(--color-text);
   margin-bottom: 3rem;
+`;
+
+const OpacityAnimation = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const LoadingPage = styled.div`
+  width: 100%;
+  height: calc(100vh - 3rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  animation: ${OpacityAnimation} 2s linear;
+
+  && > p {
+    margin-top: 3rem;
+  }
 `;
 
 export default Announce;
