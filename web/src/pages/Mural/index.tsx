@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import HashLoader from "react-spinners/HashLoader";
 
 import woman from "../../assets/images/Woman.svg";
 import guy from "../../assets/images/Guy.svg";
@@ -35,6 +36,12 @@ const Mural: React.FC = () => {
         </Text>
       </Main>
       <Carousel>
+        {
+          announces.length === 0 && 
+          <LoaderArea>
+            <HashLoader size={100} color={"#E52F34"} />
+          </LoaderArea>
+        }
         {announces.map( (announce) => (
           <AnnounceCard
             key={announce.id}
@@ -152,6 +159,18 @@ const GuyImage = styled.img`
     margin-top: -6rem;
   }
 `;
+
+const LoaderArea = styled.div`
+  width: 100%;
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media(max-width: 1024px) {
+    height: 22rem;
+  }
+`
 
 const Carousel = styled.div`
   height: 100vh;
