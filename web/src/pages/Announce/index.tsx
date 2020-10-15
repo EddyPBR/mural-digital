@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { match } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
+import { Link } from "react-router-dom";
 import BounceLoader from "react-spinners/BounceLoader";
 
 import HomeButtom from "../../components/HomeButton";
@@ -23,6 +24,30 @@ interface AnnounceParams {
 const Announce: React.FC<AnnounceParams> = (props) => {
   const id = props.match?.params.id;
 
+  const [announce, setAnnounce] = useState({} as Announce);
+  const [isLoading, setIsLoading] = useState(true);
+  const [status, setStatus] = useState("Carregando...")
+
+  useEffect(() => {
+    api.get(`/billboard/${id}`)
+    .then(response => setAnnounce(response.data))
+    .catch(error => {
+      if(error.response.status === 404) {
+        return setStatus("Erro: anúncio não encontrado");
+      }
+      if(error.response.status === 500) {
+        return setStatus("Erro interno do servidor");
+      }
+      return setStatus("Erro desconhecido no sistema, por favor recarregue a página")
+    })
+  }, [id]);  
+  
+  useEffect( () => {
+    if(Object.keys(announce).length) {
+      setIsLoading(false)
+    }
+  }, [announce]);
+
   const formatedDate = (date: string) => {
     if (!date) return;
     const year = date.slice(0, 4);
@@ -30,28 +55,13 @@ const Announce: React.FC<AnnounceParams> = (props) => {
     const month = date.slice(5, 7);
     return (day + "-" + month + "-" + year);
   }
-
-  const [announce, setAnnounce] = useState({} as Announce);
-
-  useEffect(() => {
-    api.get(`/billboard/${id}`).then(response => {
-      setAnnounce(response.data);
-    });
-  }, [id]);
-  
-  const [isLoading, setIsLoading] = useState(true);
-  
-  useEffect( () => {
-    if(Object.keys(announce).length) {
-      setIsLoading(false)
-    }
-  });
   
   if(isLoading){
     return (
       <LoadingPage>
         <BounceLoader size={160} color={"#E52F34"} />
-        <Text>carregando...</Text>
+        <Text>{status}</Text>
+        <Link to="/">ir para anúncios</Link>
       </LoadingPage>
     )
   }
@@ -222,6 +232,12 @@ const LoadingPage = styled.div`
 
   && > p {
     margin-top: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  && > a {
+    font: 400 1.8rem/3.2rem "Roboto", sans-serif;
+    color: var(--color-secundary-light);
   }
 `;
 
