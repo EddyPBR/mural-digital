@@ -16,7 +16,7 @@ interface Announce {
   updated_At: string
 }
 
-const Mural: React.FC = () => {
+const Billboard: React.FC = () => {
   const [announces, setAnnounces] = useState<Announce[]>([]);
 
   useEffect(() => {
@@ -220,4 +220,4 @@ const LoaderArea = styled.div`
   }
 `
 
-export default Mural;
+export default Billboard;
