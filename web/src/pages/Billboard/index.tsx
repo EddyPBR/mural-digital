@@ -18,12 +18,30 @@ interface Announce {
 
 const Billboard: React.FC = () => {
   const [announces, setAnnounces] = useState<Announce[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [status, setStatus] = useState("Carregando...")
 
   useEffect(() => {
-    api.get("/billboard/").then(response => {
+    api.get(`/billboard`)
+    .then(response => {
       setAnnounces(response.data);
-    });
+      if(response.data.length === 0) {
+        setStatus("Ainda não temos anúncios cadastrados :(")
+      }
+    })
+    .catch(error => {
+      if(error.response.status === 500) {
+        return setStatus("Erro interno do servidor");
+      }
+      return setStatus("Erro desconhecido no sistema, por favor recarregue a página")
+    })
   }, []);
+
+  useEffect( () => {
+    if(Object.keys(announces).length) {
+      setIsLoading(false)
+    }
+  }, [announces]);
 
   return (
     <Container>
@@ -37,9 +55,10 @@ const Billboard: React.FC = () => {
       </Main>
       <Carousel>
         {
-          announces.length === 0 && 
+          isLoading && 
           <LoaderArea>
             <HashLoader size={100} color={"#E52F34"} />
+            <Text>{status}</Text>
           </LoaderArea>
         }
         {announces.map( (announce) => (
@@ -96,7 +115,7 @@ const Main = styled.main`
     max-width: unset;
   }
 
-  @media (min-height: 740px) and (min-width: 1024px) {
+  @media (min-height: 740px) and (min-width: 1025px) {
     align-items: center;
     align-self: center;
     margin-bottom: 40rem;
@@ -170,10 +189,6 @@ const Carousel = styled.div`
     margin: 3rem 0 3rem 0;
   }
 
-  && > div:nth-child(1) {
-    margin-top: 1.5rem;
-  }
-
   @media(max-width: 1024px){
     width: 100%;
     max-width: 72.4rem;
@@ -187,7 +202,7 @@ const Carousel = styled.div`
     overflow-x: scroll;
 
     && > div {
-      margin: 0 1.5rem 0 1.5rem;
+      margin: .5rem 1.5rem .5rem 1.5rem;
     }
   }
 
@@ -210,6 +225,7 @@ const LoaderArea = styled.div`
   width: 100%;
   height: 80%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 
@@ -218,6 +234,12 @@ const LoaderArea = styled.div`
   @media(max-width: 1024px) {
     height: 22rem;
   }
+
+  && > p {
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+  }
+
 `
 
 export default Billboard;
