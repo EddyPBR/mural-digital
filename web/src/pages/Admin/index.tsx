@@ -3,21 +3,48 @@ import styled from "styled-components";
 
 import Input from "../../components/Input";
 
+import api from "../../services/api";
+
 const Admin: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [status, setStatus] = useState("")
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleLogin = (event: FormEvent) => {
     event.preventDefault();
-
-    console.log({
-      email,
-      password,
-    });
+    setIsLoading(true);
     
+    api.post("/auth", { email, password })
+    .then((response) => {
+      sessionStorage.setItem("acess_token", response.data.token);
+      setStatus("");
+    })
+    .catch((error) => {
+      if(error.response.status === 401) {
+        if(error.response.data.message === "invalid email") {
+          return setStatus("Email inválido :(");
+        }
+        if(error.response.data.message === "invalid password") {
+          return setStatus("Senha incorreta :(");
+        }
+      }
+      if(error.response.status === 500) {
+        return setStatus("Erro interno do servidor, tente novamente :(");
+      }
+      return setStatus("Ops! ocorreu um erro, tente novamente");
+    })
+    .finally( () => setIsLoading(false) );
   };
 
   return (
     <Login>
+      { 
+        status !== "" && 
+        <ErrorBox>
+          <Message>{status}</Message>
+        </ErrorBox>
+      }
       <Form onSubmit={(event) => handleLogin(event)}>
         <Title>Administração</Title>
         <Input
@@ -34,7 +61,7 @@ const Admin: React.FC = () => {
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />
-        <Button type="button" onClick={(event) => handleLogin(event)}>ACESSAR</Button>
+        <Button type="button" disabled={isLoading ? true : false} onClick={(event) => handleLogin(event) }>ACESSAR</Button>
       </Form>
     </Login>
   );
@@ -105,11 +132,40 @@ const Button = styled.button`
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
   }
 
+  &&:disabled {
+    opacity: .7
+  }
+
+  &&:disabled:hover {
+    filter: brightness(1);
+    box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.5);
+  }
+
   @media(max-width: 520px) {
     width: 14rem;
     height: 4.6rem;
     font-size: 1.6rem;
   }
+`;
+
+const ErrorBox = styled.div`
+  height: 8rem;
+  width: 90vw;
+  max-width: 44rem;
+  box-shadow: 2px 2px 4px 2px rgba(0,0,0,0.25);
+  border-radius: 10px;
+  padding: 1rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: var(--color-primary);
+  margin-bottom: 3rem;
+`;
+
+const Message = styled.p`
+  font: 400 1.6rem/2.4rem "Roboto", sans-serif;
+  color: var(--color-background);
 `;
 
 export default Admin;
