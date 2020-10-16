@@ -9,6 +9,8 @@ import AnnounceCard from "../../components/AnnounceCard";
 
 import api from "../../services/api";
 
+import formatDate from "../../utils/formatDate";
+
 interface Announce {
   id: string,
   title: string,
@@ -67,7 +69,7 @@ const Billboard: React.FC = () => {
             id={announce.id}
             title={announce.title}
             text={announce.text}
-            date={announce.updated_at}
+            date={formatDate(announce.updated_at)}
           />
         ))}
       </Carousel>

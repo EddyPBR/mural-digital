@@ -7,7 +7,7 @@ interface CardComponent {
   id: string;
   title: string;
   text: string;
-  date: string;
+  date?: string;
 }
 
 const AnnounceCard: React.FC<CardComponent> = (props) => {
