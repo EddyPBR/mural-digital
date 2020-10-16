@@ -1,12 +1,55 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useState, useEffect } from "react";
+import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
 import { FaPlusCircle } from "react-icons/fa";
+import BounceLoader from "react-spinners/BounceLoader";
 
 import AdminNavbar from "../../components/AdminNavbar";
 import TableRow from "../../components/TableRow";
 
+import api from "../../services/api";
+import formatDate from "../../utils/formatDate";
+
+interface Announce {
+  id: string,
+  title: string,
+  text: string,
+  updated_at: string
+}
+
 const AnnounceList: React.FC = () => {
+  const [announces, setAnnounces] = useState<Announce[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [status, setStatus] = useState("Carregando...");
+
+  const formatedDate = formatDate;
+
+  useEffect(() => {
+    api.get(`/billboard`)
+    .then(response => {
+      setAnnounces(response.data)
+      setIsLoading(false)
+    })
+    .catch(error => {
+      if(error.response.status === 500) {
+        return setStatus("Erro interno do servidor");
+      }
+      return setStatus("Erro desconhecido no sistema, por favor recarregue a página")
+    })
+  }, []);
+
+  if(isLoading){
+    return (
+      <LoadingPage>
+        <BounceLoader size={160} color={"#E52F34"} />
+        <Text>{status}</Text>
+        {
+          status !== "Carregando..." && <Link to="/admin">Recarregar página</Link>
+        }
+      </LoadingPage>
+    )
+  }
+
   return (
     <>
       <AdminNavbar />
@@ -31,11 +74,14 @@ const AnnounceList: React.FC = () => {
             </tr>
           </TableHeader>
           <TableBody>
-            <TableRow 
-              id="091282195218213"
-              title="Título do post de anúncio"
-              date="01/01/2020"
-            />
+            {announces.map( (announce) => (
+              <TableRow 
+                key={announce.id}
+                id={announce.id}
+                title={announce.title}
+                date={formatedDate(announce.updated_at)}
+              />
+            ))}
           </TableBody>
         </Table>
       </Announce>
@@ -153,6 +199,42 @@ const Button = styled.div`
     width: 14rem;
     height: 4.6rem;
     font-size: 1.6rem;
+  }
+`;
+
+const Text = styled.p`
+  font: 400 1.8rem/3.2rem "Roboto", sans-serif;
+  color: var(--color-text);
+  margin-bottom: 3rem;
+`;
+
+const OpacityAnimation = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const LoadingPage = styled.div`
+  width: 100%;
+  height: calc(100vh - 3rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  animation: ${OpacityAnimation} 2s linear;
+
+  && > p {
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  && > a {
+    font: 400 1.8rem/3.2rem "Roboto", sans-serif;
+    color: var(--color-secundary-light);
   }
 `;
 
