@@ -7,6 +7,7 @@ import BounceLoader from "react-spinners/BounceLoader";
 import HomeButtom from "../../components/HomeButton";
 
 import api from "../../services/api";
+import formatDate from "../../utils/formatDate";
 
 interface Announce {
   id: string,
@@ -28,6 +29,8 @@ const Announce: React.FC<AnnounceParams> = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [status, setStatus] = useState("Carregando...")
 
+  const formatedDate = formatDate;
+
   useEffect(() => {
     api.get(`/billboard/${id}`)
     .then(response => setAnnounce(response.data))
@@ -47,14 +50,6 @@ const Announce: React.FC<AnnounceParams> = (props) => {
       setIsLoading(false)
     }
   }, [announce]);
-
-  const formatedDate = (date: string) => {
-    if (!date) return;
-    const year = date.slice(0, 4);
-    const day = date.slice(8, 10);
-    const month = date.slice(5, 7);
-    return (day + "-" + month + "-" + year);
-  }
   
   if(isLoading){
     return (
