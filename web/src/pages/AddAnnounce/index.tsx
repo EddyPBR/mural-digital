@@ -1,26 +1,101 @@
 import React, { useState, FormEvent } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+import BounceLoader from "react-spinners/BounceLoader";
+import { useHistory } from "react-router-dom";
 
 import AdminNavbar from "../../components/AdminNavbar";
 import Input from "../../components/Input";
 import Textarea from "../../components/Textarea";
 import ImageInputRadio from "../../components/ImageInputRadio";
 
+import api from "../../services/api";
+
 const AddAnnounce: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [status, setStatus] = useState("");
+
   const [frontTitle, setFrontTitle] = useState("");
+  const [statusFrontTitle, setStatusFrontTitle] = useState<Array<string>>(["", ""]);
+
   const [textTitle, setTextTitle] = useState("");
+  const [statusTextTitle, setStatusTextTitle] = useState<Array<string>>(["", ""]);
+
   const [text, setText] = useState("");
+  const [statusText, setStatusText] = useState<Array<string>>(["", ""]);
+
+  const [statusImageURL, setStatusImageURL] = useState<Array<string>>(["", ""]);
+  const [imageURL, setImageURL] = useState("https://cdn.awsli.com.br/600x1000/761/761999/produto/41467929/f84f75780b.jpg");
+
+  const history = useHistory();
+
+  const verifyData = () => {
+    setStatusFrontTitle(["", ""]);
+    setStatusTextTitle(["", ""]);
+    setStatusText(["", ""]);
+
+    const errors = [];
+    if (frontTitle === "") {
+      errors.push("frontTitle is empty");
+      setStatusFrontTitle(["error", "campo é obrigatório"])
+    }
+    if (textTitle === "") {
+      errors.push("textTitle is empty");
+      setStatusTextTitle(["error", "campo é obrigatório"]);
+    }
+    if (text === "") {
+      errors.push("text is empty");
+      setStatusText(["error", "campo é obrigatório"]);
+    }
+    if (imageURL === "") {
+      errors.push("imageURL is empty");
+      setStatusImageURL(["error", "escolha alguma das imagens"]);
+    }
+    return errors.length === 0 ? true : false;
+  }
 
   const handleSaveAnnounce = (event: FormEvent) => {
     event.preventDefault();
 
+    if(!verifyData()) return;
+
     const data = {
-      frontTitle,
-      textTitle,
-      text,
+      title: frontTitle,
+      title_extended: textTitle,
+      text: text,
+      image_url: imageURL
     }
 
-    console.log(data);
+    setIsLoading(true);
+  
+    api.post("/billboard", data)
+    .then( (response) => {
+      setStatus("enviado com sucesso!");
+    })
+    .catch( (error) => {
+      if(error.response.status === 500) {
+        return setStatus("Erro interno do servidor, tente novamente :(");
+      }
+      if(error.response.status === 400) {
+        return setStatus("Erro: requisição mal formada, tente novamente :(");
+      }
+      return setStatus("Ops! ocorreu um erro inesperado, tente novamente :(");
+    })
+    .finally( () => {
+      setTimeout(() => {
+        setIsLoading(false);
+        history.push("/admin");
+      }, 7000);
+    });
+  }
+
+  if(isLoading){
+    return (
+      <LoadingPage>
+        <Text>{status}</Text>
+        <BounceLoader size={160} color={"#E52F34"} />
+        <Text>Aguarde o redirecionamento automático!</Text>
+      </LoadingPage>
+    )
   }
    
   return (
@@ -36,6 +111,8 @@ const AddAnnounce: React.FC = () => {
               label="Título de capa"
               value={frontTitle}
               onChange={(event) => setFrontTitle(event.target.value)}
+              error={statusFrontTitle[0] === "error" ? true : false}
+              message={statusFrontTitle[1]}
             />
             <Input
               type="text"
@@ -43,12 +120,16 @@ const AddAnnounce: React.FC = () => {
               label="Título de texto"
               value={textTitle}
               onChange={(event) => setTextTitle(event.target.value)}
+              error={statusTextTitle[0] === "error" ? true : false}
+              message={statusTextTitle[1]}
             />
             <Textarea
               name="text"
               label="Texto do anúncio"
               value={text}
               onChange={(event) => setText(event.target.value)}
+              error={statusText[0] === "error" ? true : false}
+              message={statusText[1]}
             />
           </Column>
           <Column>
@@ -193,6 +274,41 @@ const Button = styled.button`
 
   @media(max-width: 520px) {
     font-size: 1.6rem;
+  }
+`;
+
+const Text = styled.p`
+  font: 400 1.6rem/3.2rem "Roboto", sans-serif;
+  color: var(--color-text);
+`;
+
+const OpacityAnimation = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const LoadingPage = styled.div`
+  width: 100%;
+  height: calc(100vh - 3rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  animation: ${OpacityAnimation} 2s linear;
+
+  && > p {
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  && > a {
+    font: 400 1.8rem/3.2rem "Roboto", sans-serif;
+    color: var(--color-secundary-light);
   }
 `;
 
