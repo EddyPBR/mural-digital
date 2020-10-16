@@ -13,10 +13,10 @@ class AuthController {
     const { email, password } = request.body;
 
     const user = await repository.findOne({ where: { email } });
-    if(!user) return response.sendStatus(401);
+    if(!user) return response.status(401).json({"message": "invalid email"});
 
     const isValidPassword = await bcrypt.compare(password, user.password);
-    if (!isValidPassword) return response.sendStatus(401);
+    if (!isValidPassword) return response.status(401).json({"message": "invalid password"})
 
     const secret = process.env.JWT_SECRET as string;
     const token = jwt.sign({ id: user.id }, secret, { expiresIn: "1d" });
