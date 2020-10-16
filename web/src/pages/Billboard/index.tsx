@@ -13,7 +13,7 @@ interface Announce {
   id: string,
   title: string,
   text: string,
-  updated_At: string
+  updated_at: string
 }
 
 const Billboard: React.FC = () => {
@@ -67,7 +67,7 @@ const Billboard: React.FC = () => {
             id={announce.id}
             title={announce.title}
             text={announce.text}
-            date={announce.updated_At}
+            date={announce.updated_at}
           />
         ))}
       </Carousel>

@@ -11,7 +11,7 @@ interface AnnounceParams {
 }
 
 const UpdateAnnounce: React.FC<AnnounceParams> = (params) => {
-  const { id } = params;
+  // const { id } = params;
 
   // create a API call
 

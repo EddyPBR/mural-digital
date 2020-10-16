@@ -7,7 +7,7 @@ import { FaTrash, FaEdit } from "react-icons/fa";
 interface TableRow {
   id: string;
   title: string;
-  date: string;
+  date?: string;
 }
 
 const TableRow: React.FC<TableRow> = (props) => {
@@ -32,7 +32,7 @@ const TableRow: React.FC<TableRow> = (props) => {
 
   return (
     <Row>
-      <td>{id}</td>
+      <td><Link to={`/announces/${id}`}>{id}</Link></td>
       <td>{title}</td>
       <td>{date}</td>
       <td>
@@ -86,7 +86,25 @@ const Row = styled.tr`
     font: 400 1.6rem/2.4rem "Roboto", sans-serif;
     color: var(--color-text);
     border-radius: 1rem;
+    border: 0.1rem solid #fff;
     border-bottom: 0.1rem solid #c8c9df;
+    text-align: center;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  && > td > a {
+    font: 400 1.6rem/2.4rem "Roboto", sans-serif;
+    color: var(--color-text);
+    border-radius: 1rem;
+    border-bottom: 0.1rem solid #c8c9df;
+    text-align: center;
+    text-decoration: none;
+    color: var(--color-secundary-light);
+    width: 100%;
+    height: 100%;
 
     display: flex;
     align-items: center;
@@ -98,8 +116,8 @@ const Row = styled.tr`
     border: 0.1rem solid #c8c9df;
   }
 
-  && > td:nth-child(1) {
-    color: var(--color-secundary-light);
+  && > td:nth-child(1):hover {
+    background-color: #BFC7F7;
   }
 
   && > td:nth-child(4) {
