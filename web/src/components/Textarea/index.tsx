@@ -4,13 +4,30 @@ import styled from "styled-components";
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label: string;
   name: string;
+  warning?: boolean;
+  error?: boolean;
+  message?: string;
 }
 
-const Textarea: React.FC<TextareaProps> = ({ label, name, ...rest }) => {
+interface LabelProps {
+  warning?: boolean;
+  error?: boolean;
+}
+
+interface MessageProps {
+  warning?: boolean;
+  error?: boolean;
+}
+
+const Textarea: React.FC<TextareaProps> = ({ label, name, warning, error, message, ...rest }) => {
   return (
     <Fieldset>
       <Label htmlFor={name}>{label}</Label>
-      <InputPlace id={name} {...rest} />
+      <InputPlace id={name} {...rest} warning={warning? true: false} error={error? true: false} />
+      {
+        message &&
+        <Message warning={warning? true: false} error={error? true: false}>{message}</Message>
+      }
     </Fieldset>
   );
 }
@@ -30,12 +47,20 @@ const Label = styled.label`
   margin-bottom: .5rem;
 `;
 
-const InputPlace = styled.textarea`
+const InputPlace = styled.textarea<LabelProps>`
   width: 100%;
   max-width: 90vw;
-  min-height: 29rem;
+  min-height: ${(props) => {
+    if(props.warning) return "24rem";
+    if(props.error) return "24rem";
+    return "29rem";
+  }};
   background-color: #FAFAFA;
-  border: 1px solid #C8C9DF;
+  border: 1px solid ${(props) => {
+    if(props.warning) return "#F9A825";
+    if(props.error) return "#E52F34";
+    return "#C8C9DF";
+  }};
   border-radius: .5rem;
   color: var(--color-text);
   padding: .8rem;
@@ -46,6 +71,15 @@ const InputPlace = styled.textarea`
     border: 1px solid #A5CCE8;
     background-color: #FFF;
   }
+`;
+
+const Message = styled.span<MessageProps>`
+  font: 400 1.2rem/2.2rem "Roboto", sans-serif;
+  color: ${(props) => {
+    if(props.warning) return "#F9A825";
+    if(props.error) return "#E52F34";
+    return "#192A43";
+  }};
 `;
 
 export default Textarea;
