@@ -1,8 +1,12 @@
 import React, { useState } from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
+import styled, { keyframes } from "styled-components";
+import { Link, useHistory } from "react-router-dom";
+
+import BounceLoader from "react-spinners/BounceLoader";
 
 import { FaTrash, FaEdit } from "react-icons/fa";
+
+import api from "../../services/api";
 
 interface TableRow {
   id: string;
@@ -13,7 +17,12 @@ interface TableRow {
 const TableRow: React.FC<TableRow> = (props) => {
   const { id, title, date } = props;
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [status, setStatus] = useState("");
+
   const [enableDelete, setEnableDelete] = useState(false);
+
+  const history = useHistory();
 
   const handleShowDeleteBox = (event: any) => {
     event.preventDefault();
@@ -27,7 +36,29 @@ const TableRow: React.FC<TableRow> = (props) => {
 
   const handleDeleteAnnounce = (event: any) => {
     event.preventDefault();
-    alert("need create a api call");
+    setIsLoading(true);
+    setStatus("carregando...")
+    setEnableDelete(false);
+
+    api.delete(`/billboard/${id}`)
+    .then( (response) => {
+      if (response.status === 200) return setStatus("Removido com sucesso!");
+    })
+    .catch( (error) => {
+      if(error.response.status === 500) {
+        return setStatus("Erro interno do servidor, tente novamente :(");
+      }
+      if(error.response.status === 404) {
+        return setStatus("Erro: anúncio não encontrado :(");
+      }
+      return setStatus("Ops! ocorreu um erro inesperado, tente novamente :(");
+    })
+    .finally( () => {
+      setTimeout(() => {
+        setIsLoading(false);
+        history.push("/admin");
+      }, 5000);
+    });
   }
 
   return (
@@ -48,6 +79,7 @@ const TableRow: React.FC<TableRow> = (props) => {
           <FaTrash size={18} />
         </Link>
       </td>
+
       {enableDelete && (
         <BlackWindow>
           <Box>
@@ -66,6 +98,20 @@ const TableRow: React.FC<TableRow> = (props) => {
           </Box>
         </BlackWindow>
       )}
+
+      {
+      isLoading && 
+      <BlackWindow>
+        <Box>
+        <LoadingPage>
+          <Text>{status}</Text>
+          <BounceLoader size={160} color={"#E52F34"} />
+          <Text>Aguarde o redirecionamento automático!</Text>
+        </LoadingPage>
+        </Box>
+      </BlackWindow>
+      }
+
     </Row>
   );
 };
@@ -181,10 +227,15 @@ const BlackWindow = styled.td`
   align-items: center;
 `;
 
+const WhiteWindow = styled(BlackWindow) `
+  background-color: #FFF;
+`;
+
 const Box = styled.div`
   width: 90vw;
   max-width: 43rem;
   min-height: 38rem;
+  max-height: 40rem;
   background: #ffffff;
   box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
@@ -297,6 +348,42 @@ const Button = styled.div`
     width: 14rem;
     height: 4.6rem;
     font-size: 1.6rem;
+  }
+`;
+
+
+const Text = styled.p`
+  font: 400 1.6rem/3.2rem "Roboto", sans-serif;
+  color: var(--color-text);
+`;
+
+const OpacityAnimation = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const LoadingPage = styled.div`
+  width: 100%;
+  height: calc(100vh - 3rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  animation: ${OpacityAnimation} 2s linear;
+
+  && > p {
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  && > a {
+    font: 400 1.8rem/3.2rem "Roboto", sans-serif;
+    color: var(--color-secundary-light);
   }
 `;
 
