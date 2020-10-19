@@ -7,7 +7,19 @@ import verifyObjectValues from "../utils/verifyObjectValues";
 
 class UserController {
   async index(request: Request, response: Response) {
-    return response.send({ userID: request.userID });
+    const repository = getRepository(User);
+
+    const { id } = request.params;
+
+    const query = id ? [await repository.findOne(id)] : await repository.find();
+
+    const users = query.map((data) => {
+      const id = data?.id || "null";
+      const email = data?.email || "null";
+      return({ id, email });
+    })
+
+    return response.json(users);
   }
 
   async create(request: Request, response: Response) {

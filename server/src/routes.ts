@@ -12,8 +12,9 @@ const billboard = new Billboard();
 
 const routes = express.Router();
 
-routes.get("/users", authMiddleware, userController.index);
-routes.post("/users", userController.create);
+routes.get("/users", userController.index);
+routes.get("/users/:id", userController.index);
+routes.post("/users", authMiddleware, userController.create);
 routes.put("/users/:id", authMiddleware, userController.update);
 routes.delete("/users/:id", authMiddleware, userController.delete);
 
@@ -21,8 +22,8 @@ routes.post("/auth", authController.authenticate);
 
 routes.get("/billboard", billboard.index);
 routes.get("/billboard/:id", billboard.index);
-routes.post("/billboard", billboard.create);
-routes.put("/billboard/:id", billboard.update);
-routes.delete("/billboard/:id", billboard.delete);
+routes.post("/billboard", authMiddleware, billboard.create);
+routes.put("/billboard/:id", authMiddleware, billboard.update);
+routes.delete("/billboard/:id", authMiddleware, billboard.delete);
 
 export default routes;
