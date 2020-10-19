@@ -10,14 +10,40 @@ import { login } from "../../utils/Login";
 
 const Admin: React.FC = () => {
   const [email, setEmail] = useState("");
+  const [statusEmail, setStatusEmail] = useState(["", ""]);
   const [password, setPassword] = useState("");
+  const [statusPassword, setStatusPassword] = useState(["", ""]);
+
   const [status, setStatus] = useState("")
   const [isLoading, setIsLoading] = useState(false);
 
   const history = useHistory();
 
+  const verifyData = () => {
+    setStatusEmail(["", ""]);
+    setStatusPassword(["", ""]);
+
+    const errors = [];
+    if (!email.includes("@") || (email.length <= 3)) {
+      errors.push("email bad formated");
+      setStatusEmail(["error", "email mal formatado"])
+    }
+    if (email === "") {
+      errors.push("email is empty");
+      setStatusEmail(["error", "campo é obrigatório"])
+    }
+    if (password === "") {
+      errors.push("password is empty");
+      setStatusPassword(["error", "campo é obrigatório"]);
+    }
+    return errors.length === 0 ? true : false;
+  }
+
   const handleLogin = (event: FormEvent) => {
     event.preventDefault();
+
+    if(!verifyData()) return;
+
     setIsLoading(true);
     
     api.post("/auth", { email, password })
@@ -59,6 +85,8 @@ const Admin: React.FC = () => {
           label="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
+          error={statusEmail[0] === "error" ? true : false}
+          message={statusEmail[1]}
         />
         <Input
           type="password"
@@ -66,8 +94,10 @@ const Admin: React.FC = () => {
           label="password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
+          error={statusPassword[0] === "error" ? true : false}
+          message={statusPassword[1]}
         />
-        <Button type="button" disabled={isLoading ? true : false} onClick={(event) => handleLogin(event) }>ACESSAR</Button>
+        <Button type="submit" disabled={isLoading ? true : false}>ACESSAR</Button>
       </Form>
     </Login>
   );

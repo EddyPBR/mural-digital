@@ -227,10 +227,6 @@ const BlackWindow = styled.td`
   align-items: center;
 `;
 
-const WhiteWindow = styled(BlackWindow) `
-  background-color: #FFF;
-`;
-
 const Box = styled.div`
   width: 90vw;
   max-width: 43rem;
