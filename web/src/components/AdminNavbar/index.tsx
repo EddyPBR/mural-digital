@@ -1,9 +1,19 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { FaUser, FaSignOutAlt } from "react-icons/fa";
 
+import { logout } from "../../utils/Login";
+
 const AdminNavbar: React.FC = () => {
+  const history = useHistory();
+
+  const handleLogout = (event: any) => {
+    event.preventDefault();
+    logout();
+    history.push("/admin");
+  }
+
   return (
     <Header>
       <Container>
@@ -13,7 +23,7 @@ const AdminNavbar: React.FC = () => {
           <Link to="/admin/announces">Administrador</Link>
         </Info>
         <Logout>
-          <Link to="/admin/logout">
+          <Link onClick={(event) => handleLogout(event)} to="/admin/logout">
             <FaSignOutAlt size={20} />
             <span>Sair</span>
           </Link>
