@@ -11,15 +11,22 @@ class UserController {
 
     const { id } = request.params;
 
-    const query = id ? [await repository.findOne(id)] : await repository.find();
+    try {
+      const query = id ? [await repository.findOne(id)] : await repository.find();
 
-    const users = query.map((data) => {
-      const id = data?.id || "null";
-      const email = data?.email || "null";
-      return({ id, email });
-    })
+      if(!query) { 
+        return response.sendStatus(404);
+      }
 
-    return response.json(users);
+      const users = query.map((data) => ({
+        id: `${data?.id || "null"}`,
+        email: `${data?.email || "null"}`,
+      }));
+
+      return response.json(users);
+    } catch {
+      return response.status(500);
+    }
   }
 
   async create(request: Request, response: Response) {
