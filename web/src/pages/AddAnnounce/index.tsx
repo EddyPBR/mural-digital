@@ -67,7 +67,7 @@ const AddAnnounce: React.FC = () => {
 
     setIsLoading(true);
   
-    api.post("/billboard", data)
+    api.post("/billboard", data, { headers: { 'Authorization': `Bearer ${sessionStorage.getItem('access_token')}` }})
     .then( (response) => {
       setStatus("enviado com sucesso!");
     })
@@ -84,7 +84,7 @@ const AddAnnounce: React.FC = () => {
       setTimeout(() => {
         setIsLoading(false);
         history.push("/admin");
-      }, 7000);
+      }, 4000);
     });
   }
 

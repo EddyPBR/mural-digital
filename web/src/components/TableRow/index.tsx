@@ -40,7 +40,7 @@ const TableRow: React.FC<TableRow> = (props) => {
     setStatus("carregando...")
     setEnableDelete(false);
 
-    api.delete(`/billboard/${id}`)
+    api.delete(`/billboard/${id}`, { headers: { 'Authorization': `Bearer ${sessionStorage.getItem('access_token')}` }})
     .then( (response) => {
       if (response.status === 200) return setStatus("Removido com sucesso!");
     })
@@ -57,7 +57,7 @@ const TableRow: React.FC<TableRow> = (props) => {
       setTimeout(() => {
         setIsLoading(false);
         history.push("/admin");
-      }, 5000);
+      }, 4000);
     });
   }
 

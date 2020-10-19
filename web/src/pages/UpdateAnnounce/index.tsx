@@ -94,7 +94,7 @@ const UpdateAnnounce: React.FC = () => {
 
     setIsLoading(true);
 
-    api.put(`/billboard/${id}`, data)
+    api.put(`/billboard/${id}`, data, { headers: { 'Authorization': `Bearer ${sessionStorage.getItem('access_token')}` }})
     .then( (response) => {
       setStatus("Atualizado com sucesso!");
     })
@@ -111,7 +111,7 @@ const UpdateAnnounce: React.FC = () => {
       setTimeout(() => {
         setIsLoading(false);
         history.push("/admin");
-      }, 6000);
+      }, 4000);
     });    
   }
 

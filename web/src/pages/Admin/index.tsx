@@ -1,9 +1,12 @@
 import React, { useState, FormEvent } from "react";
+import { useHistory } from "react-router-dom"
 import styled from "styled-components";
 
 import Input from "../../components/Input";
 
 import api from "../../services/api";
+
+import { login } from "../../utils/Login";
 
 const Admin: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -11,14 +14,17 @@ const Admin: React.FC = () => {
   const [status, setStatus] = useState("")
   const [isLoading, setIsLoading] = useState(false);
 
+  const history = useHistory();
+
   const handleLogin = (event: FormEvent) => {
     event.preventDefault();
     setIsLoading(true);
     
     api.post("/auth", { email, password })
     .then((response) => {
-      sessionStorage.setItem("acess_token", response.data.token);
+      login(response.data.token);
       setStatus("");
+      history.push("/admin/announces");
     })
     .catch((error) => {
       if(error.response.status === 401) {
