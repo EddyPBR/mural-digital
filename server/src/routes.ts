@@ -19,6 +19,7 @@ routes.put("/users/:id", authMiddleware, userController.update);
 routes.delete("/users/:id", authMiddleware, userController.delete);
 
 routes.post("/auth", authController.authenticate);
+routes.get("/auth", authMiddleware, authController.checkAuthenticate);
 
 routes.get("/billboard", billboard.index);
 routes.get("/billboard/:id", billboard.index);

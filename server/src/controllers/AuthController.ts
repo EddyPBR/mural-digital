@@ -27,6 +27,13 @@ class AuthController {
       token
     });
   }
+
+  async checkAuthenticate(request: Request, response: Response) {
+    response.status(200).json({
+      "message": "is authenticated"
+    });
+  }
+  
 }
 
 export default AuthController;
