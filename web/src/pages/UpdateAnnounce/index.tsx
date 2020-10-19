@@ -53,7 +53,7 @@ const UpdateAnnounce: React.FC = () => {
       }
       return setStatus("Ops! ocorreu um erro inesperado, recarregue a página :(");
     });
-  }, []);
+  }, [id]);
 
   const verifyData = () => {
     setStatusFrontTitle(["", ""]);
@@ -130,7 +130,7 @@ const UpdateAnnounce: React.FC = () => {
       <AdminNavbar />
       <Announce>
         <Title>Novo anúncio</Title>
-        <AnnounceForm>
+        <AnnounceForm onSubmit={(event) => handleUpdateAnnounce(event)}>
         <Column>
             <Input
               type="text"
@@ -170,8 +170,8 @@ const UpdateAnnounce: React.FC = () => {
               <ImageInputRadio />
             </List>
           </Column>
+          <Button type="submit">Atualizar</Button>
         </AnnounceForm>
-        <Button type="button" onClick={(event) => handleUpdateAnnounce(event)}>Atualizar</Button>
       </Announce>
     </>
   );
@@ -210,7 +210,7 @@ const Title = styled.h1`
 const AnnounceForm = styled.form`
   display: grid;
   grid-template-columns: 47rem 68rem;
-  gap: 2rem;
+  column-gap: 2rem;
 
   @media(max-width: 1280px) {
     max-width: 90vw;
@@ -295,7 +295,6 @@ const Button = styled.button`
   @media(max-width: 1280px) {
     max-width: 90vw;
     width: 32rem;
-    margin-top: 3rem;
     align-self: center;
   }
 

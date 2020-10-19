@@ -103,7 +103,7 @@ const AddAnnounce: React.FC = () => {
       <AdminNavbar />
       <Announce>
         <Title>Novo anúncio</Title>
-        <AnnounceForm>
+        <AnnounceForm onSubmit={(event) => handleSaveAnnounce(event)}>
           <Column>
             <Input
               type="text"
@@ -143,8 +143,8 @@ const AddAnnounce: React.FC = () => {
               <ImageInputRadio />
             </List>
           </Column>
+          <Button type="submit">Cadastrar</Button>
         </AnnounceForm>
-        <Button type="button" onClick={(event) => handleSaveAnnounce(event)}>Cadastrar</Button>
       </Announce>
     </>
   );
@@ -183,7 +183,7 @@ const Title = styled.h1`
 const AnnounceForm = styled.form`
   display: grid;
   grid-template-columns: 47rem 68rem;
-  gap: 2rem;
+  column-gap: 2rem;
 
   @media(max-width: 1280px) {
     max-width: 90vw;
@@ -268,7 +268,6 @@ const Button = styled.button`
   @media(max-width: 1280px) {
     max-width: 90vw;
     width: 32rem;
-    margin-top: 3rem;
     align-self: center;
   }
 

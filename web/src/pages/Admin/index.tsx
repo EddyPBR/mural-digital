@@ -50,6 +50,7 @@ const Admin: React.FC = () => {
     .then((response) => {
       login(response.data.token);
       setStatus("");
+      setIsLoading(false);
       history.push("/admin/announces");
     })
     .catch((error) => {
@@ -66,7 +67,6 @@ const Admin: React.FC = () => {
       }
       return setStatus("Ops! ocorreu um erro, tente novamente");
     })
-    .finally( () => setIsLoading(false) );
   };
 
   return (
