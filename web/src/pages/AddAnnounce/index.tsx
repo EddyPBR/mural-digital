@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from "react";
+import React, { useState, useEffect, FormEvent } from "react";
 import styled, { keyframes } from "styled-components";
 import BounceLoader from "react-spinners/BounceLoader";
 import { useHistory } from "react-router-dom";
@@ -6,25 +6,50 @@ import { useHistory } from "react-router-dom";
 import AdminNavbar from "../../components/AdminNavbar";
 import Input from "../../components/Input";
 import Textarea from "../../components/Textarea";
-import ImageInputRadio from "../../components/ImageInputRadio";
 
 import api from "../../services/api";
+
+const PREFIX = process.env.REACT_APP_PREFIX;
+
+interface imageItem {
+  title: string;
+  url: string;
+}
 
 const AddAnnounce: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState("");
 
   const [frontTitle, setFrontTitle] = useState("");
-  const [statusFrontTitle, setStatusFrontTitle] = useState<Array<string>>(["", ""]);
+  const [statusFrontTitle, setStatusFrontTitle] = useState<Array<string>>([
+    "",
+    "",
+  ]);
 
   const [textTitle, setTextTitle] = useState("");
-  const [statusTextTitle, setStatusTextTitle] = useState<Array<string>>(["", ""]);
+  const [statusTextTitle, setStatusTextTitle] = useState<Array<string>>([
+    "",
+    "",
+  ]);
 
   const [text, setText] = useState("");
   const [statusText, setStatusText] = useState<Array<string>>(["", ""]);
 
   const [statusImageURL, setStatusImageURL] = useState<Array<string>>(["", ""]);
-  const [imageURL, setImageURL] = useState("https://cdn.awsli.com.br/600x1000/761/761999/produto/41467929/f84f75780b.jpg");
+  const [imageURL, setImageURL] = useState("");
+
+  const [imagesList, setImagesList] = useState<Array<imageItem>>([]);
+
+  useEffect(() => {
+    api
+      .get("/uploads")
+      .then((response) => {
+        setImagesList(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const history = useHistory();
 
@@ -32,11 +57,12 @@ const AddAnnounce: React.FC = () => {
     setStatusFrontTitle(["", ""]);
     setStatusTextTitle(["", ""]);
     setStatusText(["", ""]);
+    setStatusImageURL(["", ""]);
 
     const errors = [];
     if (frontTitle === "") {
       errors.push("frontTitle is empty");
-      setStatusFrontTitle(["error", "campo é obrigatório"])
+      setStatusFrontTitle(["error", "campo é obrigatório"]);
     }
     if (textTitle === "") {
       errors.push("textTitle is empty");
@@ -51,53 +77,62 @@ const AddAnnounce: React.FC = () => {
       setStatusImageURL(["error", "escolha alguma das imagens"]);
     }
     return errors.length === 0 ? true : false;
-  }
+  };
 
   const handleSaveAnnounce = (event: FormEvent) => {
     event.preventDefault();
-
-    if(!verifyData()) return;
+    if (!verifyData()) return;
 
     const data = {
       title: frontTitle,
       title_extended: textTitle,
       text: text,
-      image_url: imageURL
-    }
+      image_url: imageURL,
+    };
 
     setIsLoading(true);
-  
-    api.post("/billboard", data, { headers: { 'Authorization': `Bearer ${sessionStorage.getItem('access_token')}` }})
-    .then( (response) => {
-      setStatus("enviado com sucesso!");
-    })
-    .catch( (error) => {
-      if(error.response.status === 500) {
-        return setStatus("Erro interno do servidor, tente novamente :(");
-      }
-      if(error.response.status === 400) {
-        return setStatus("Erro: requisição mal formada, tente novamente :(");
-      }
-      return setStatus("Ops! ocorreu um erro inesperado, tente novamente :(");
-    })
-    .finally( () => {
-      setTimeout(() => {
-        setIsLoading(false);
-        history.push("/admin");
-      }, 4000);
-    });
-  }
 
-  if(isLoading){
+    api
+      .post("/billboard", data, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
+        },
+      })
+      .then((response) => {
+        setStatus("enviado com sucesso!");
+      })
+      .catch((error) => {
+        if (error.response.status === 500) {
+          return setStatus("Erro interno do servidor, tente novamente :(");
+        }
+        if (error.response.status === 400) {
+          return setStatus("Erro: requisição mal formada, tente novamente :(");
+        }
+        return setStatus("Ops! ocorreu um erro inesperado, tente novamente :(");
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setIsLoading(false);
+          history.push("/admin");
+        }, 4000);
+      });
+  };
+
+  const onValueChange = (event: any) => {
+    console.log("chamou");
+    setImageURL(event.target.value);
+  };
+
+  if (isLoading) {
     return (
       <LoadingPage>
         <Text>{status}</Text>
         <BounceLoader size={160} color={"#E52F34"} />
         <Text>Aguarde o redirecionamento automático!</Text>
       </LoadingPage>
-    )
+    );
   }
-   
+
   return (
     <>
       <AdminNavbar />
@@ -135,12 +170,21 @@ const AddAnnounce: React.FC = () => {
           <Column>
             <Legend>Selecione a imagem de anúncio</Legend>
             <List>
-              <ImageInputRadio />
-              <ImageInputRadio />
-              <ImageInputRadio />
-              <ImageInputRadio />
-              <ImageInputRadio />
-              <ImageInputRadio />
+              {imagesList.map((image, index) => (
+                <Radio key={index}>
+                  <Box htmlFor={image.title}>
+                    <input
+                      type="radio"
+                      id={image.title}
+                      name="image"
+                      value={image.url}
+                      onChange={(event) => onValueChange(event)}
+                    />
+                    <img src={`${PREFIX}${image.url}`} alt={image.title} />
+                  </Box>
+                  <InputLegend>{image.title}</InputLegend>
+                </Radio>
+              ))}
             </List>
           </Column>
           <Button type="submit">Cadastrar</Button>
@@ -159,7 +203,7 @@ const Announce = styled.div`
   flex-direction: column;
   justify-items: center;
 
-  @media(max-width: 1280px) {
+  @media (max-width: 1280px) {
     max-width: 90vw;
     width: 72rem;
     display: flex;
@@ -185,7 +229,7 @@ const AnnounceForm = styled.form`
   grid-template-columns: 47rem 68rem;
   column-gap: 2rem;
 
-  @media(max-width: 1280px) {
+  @media (max-width: 1280px) {
     max-width: 90vw;
     width: 100%;
     display: flex;
@@ -197,7 +241,7 @@ const AnnounceForm = styled.form`
       margin-bottom: 0;
     }
   }
-`
+`;
 
 const Column = styled.div`
   width: 90vw;
@@ -205,7 +249,7 @@ const Column = styled.div`
   display: flex;
   flex-direction: column;
 
-  @media(max-width: 1280px) {
+  @media (max-width: 1280px) {
     margin-bottom: 3rem;
   }
 `;
@@ -214,10 +258,10 @@ const Legend = styled.h2`
   font: 700 1.4rem "Open Sans", sans-serif;
   color: var(--color-title);
   margin: 0;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
   margin-left: 1rem;
 
-  @media(max-width: 1280px) {
+  @media (max-width: 1280px) {
     margin-bottom: 2rem;
   }
 `;
@@ -229,7 +273,7 @@ const List = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
   justify-items: center;
 
-  @media(max-width: 520px){
+  @media (max-width: 520px) {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -239,19 +283,18 @@ const List = styled.div`
   && > fieldset {
     margin: 0 1rem 4rem 1rem;
   }
-
 `;
 
 const Button = styled.button`
   width: 90vw;
   max-width: 17rem;
   height: 5rem;
-  background: linear-gradient(90deg, #1FF20D 0%, #3F9438 100%);
+  background: linear-gradient(90deg, #1ff20d 0%, #3f9438 100%);
   font: 400 1.8rem "Roboto", sans-serif;
   color: #fff;
   box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.5);
   border-radius: 10px;
-  transition: .2s filter, .2s box-shadow;
+  transition: 0.2s filter, 0.2s box-shadow;
   cursor: pointer;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -265,13 +308,13 @@ const Button = styled.button`
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
   }
 
-  @media(max-width: 1280px) {
+  @media (max-width: 1280px) {
     max-width: 90vw;
     width: 32rem;
     align-self: center;
   }
 
-  @media(max-width: 520px) {
+  @media (max-width: 520px) {
     font-size: 1.6rem;
   }
 `;
@@ -309,6 +352,50 @@ const LoadingPage = styled.div`
     font: 400 1.8rem/3.2rem "Roboto", sans-serif;
     color: var(--color-secundary-light);
   }
+`;
+
+const Radio = styled.fieldset`
+  width: 20rem;
+  height: 22.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: none;
+  padding: 0;
+`;
+
+const Box = styled.label`
+  width: 20rem;
+  height: 20rem;
+  border-radius: 5px;
+  cursor: pointer;
+
+  && > img {
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+    background: #FAFAFA;
+    border: 1px solid #C8C9DF;
+  }
+
+  && > input[type=radio] { 
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  && > input[type=radio]:checked ~ img {
+    background: #E3F1E5;
+    border: 1px solid #1FF20D;
+    border-radius: 5px;
+  }
+`;
+
+const InputLegend = styled.span`
+  font: 700 1.4rem "Open Sans", sans-serif;
+  color: var(--color-title);
+  margin-top: .5rem;
 `;
 
 export default AddAnnounce;
