@@ -374,20 +374,20 @@ const Box = styled.label`
     width: 100%;
     height: 100%;
     padding: 1rem;
-    background: #FAFAFA;
-    border: 1px solid #C8C9DF;
+    background: #fafafa;
+    border: 1px solid #c8c9df;
   }
 
-  && > input[type=radio] { 
+  && > input[type="radio"] {
     position: absolute;
     opacity: 0;
     width: 0;
     height: 0;
   }
 
-  && > input[type=radio]:checked ~ img {
-    background: #E3F1E5;
-    border: 1px solid #1FF20D;
+  && > input[type="radio"]:checked ~ img {
+    background: #e3f1e5;
+    border: 1px solid #1ff20d;
     border-radius: 5px;
   }
 `;
@@ -395,7 +395,7 @@ const Box = styled.label`
 const InputLegend = styled.span`
   font: 700 1.4rem "Open Sans", sans-serif;
   color: var(--color-title);
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 `;
 
 export default AddAnnounce;

@@ -9,17 +9,19 @@ import HomeButtom from "../../components/HomeButton";
 import api from "../../services/api";
 import formatDate from "../../utils/formatDate";
 
+const PREFIX = process.env.REACT_APP_PREFIX;
+
 interface Announce {
-  id: string,
-  title: string,
-  title_extended: string,
-  text: string,
-  image_url: string,
-  updated_at: string
+  id: string;
+  title: string;
+  title_extended: string;
+  text: string;
+  image_url: string;
+  updated_at: string;
 }
 
 interface AnnounceParams {
-  match: match<{id: string}>
+  match: match<{ id: string }>;
 }
 
 const Announce: React.FC<AnnounceParams> = (props) => {
@@ -27,44 +29,50 @@ const Announce: React.FC<AnnounceParams> = (props) => {
 
   const [announce, setAnnounce] = useState({} as Announce);
   const [isLoading, setIsLoading] = useState(true);
-  const [status, setStatus] = useState("Carregando...")
+  const [status, setStatus] = useState("Carregando...");
 
   const formatedDate = formatDate;
 
   useEffect(() => {
-    api.get(`/billboard/${id}`)
-    .then(response => setAnnounce(response.data))
-    .catch(error => {
-      if(error.response.status === 404) {
-        return setStatus("Erro: anúncio não encontrado");
-      }
-      if(error.response.status === 500) {
-        return setStatus("Erro interno do servidor");
-      }
-      return setStatus("Erro desconhecido no sistema, por favor recarregue a página")
-    })
-  }, [id]);  
-  
-  useEffect( () => {
-    if(Object.keys(announce).length) {
-      setIsLoading(false)
+    api
+      .get(`/billboard/${id}`)
+      .then((response) => setAnnounce(response.data))
+      .catch((error) => {
+        if (error.response.status === 404) {
+          return setStatus("Erro: anúncio não encontrado");
+        }
+        if (error.response.status === 500) {
+          return setStatus("Erro interno do servidor");
+        }
+        return setStatus(
+          "Erro desconhecido no sistema, por favor recarregue a página"
+        );
+      });
+  }, [id]);
+
+  useEffect(() => {
+    if (Object.keys(announce).length) {
+      setIsLoading(false);
     }
   }, [announce]);
-  
-  if(isLoading){
+
+  if (isLoading) {
     return (
       <LoadingPage>
         <BounceLoader size={160} color={"#E52F34"} />
         <Text>{status}</Text>
         <Link to="/">ir para anúncios</Link>
       </LoadingPage>
-    )
+    );
   }
 
   return (
     <Announcement>
       <Header>
-        <Image src={announce.image_url} alt="Sejam todos bem-vindos!" />
+        <Image
+          src={`${PREFIX}${announce.image_url}`}
+          alt="Sejam todos bem-vindos!"
+        />
         <HeaderContent>
           <Title>{announce.title}</Title>
           <Date>{formatedDate(announce.updated_at)}</Date>
@@ -100,11 +108,11 @@ const Header = styled.header`
   flex-direction: row;
   justify-content: center;
 
-  @media(max-width: 1080px){ 
+  @media (max-width: 1080px) {
     border-radius: 0 0 6rem 6rem;
   }
 
-  @media(max-width: 780px){
+  @media (max-width: 780px) {
     flex-direction: column;
     align-items: center;
     height: auto;
@@ -126,11 +134,11 @@ const HeaderContent = styled.div`
   flex-direction: column;
   max-width: 30rem;
 
-  @media(max-width: 1280px) {
+  @media (max-width: 1280px) {
     margin-left: 6rem;
   }
 
-  @media(max-width: 780px){
+  @media (max-width: 780px) {
     margin: 3rem 0 6rem 0;
   }
 `;
@@ -147,7 +155,7 @@ const Date = styled.span`
   display: flex;
   align-self: flex-end;
 
-  @media(max-width: 780px){
+  @media (max-width: 780px) {
     margin-top: 0;
   }
 `;
@@ -155,19 +163,19 @@ const Date = styled.span`
 const Content = styled.main`
   max-width: 100.3rem;
   width: 90vw;
-  background-color: #FFF;
+  background-color: #fff;
   margin-bottom: 6rem;
   border-radius: 0 0 6rem 6rem;
 
-  @media(max-width: 1280px) {
+  @media (max-width: 1280px) {
     max-width: 78rem;
   }
 
-  @media(max-width: 960px) {
+  @media (max-width: 960px) {
     max-width: 80vw;
   }
 
-  @media(max-width: 580px) {
+  @media (max-width: 580px) {
     max-width: 90vw;
     filter: drop-shadow(2px 12px 4px rgba(0, 0, 0, 0.15));
     border-radius: 0 0 3rem 3rem;
@@ -177,19 +185,19 @@ const Content = styled.main`
 const Container = styled.div`
   margin: 7rem 13rem;
 
-  @media(max-width: 1280px) {
+  @media (max-width: 1280px) {
     margin: 6rem 10rem;
   }
 
-  @media(max-width: 900px) {
+  @media (max-width: 900px) {
     margin: 6rem 7rem;
   }
 
-  @media(max-width: 780px){
+  @media (max-width: 780px) {
     margin: 6rem 4rem;
   }
 
-  @media(max-width: 580px) {
+  @media (max-width: 580px) {
     margin: 6rem 2rem;
   }
 `;
