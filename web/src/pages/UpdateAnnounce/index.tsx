@@ -49,15 +49,25 @@ const UpdateAnnounce: React.FC = () => {
   const history = useHistory();
 
   useEffect(() => {
+    setIsLoading(true);
+    setStatus("Carregando imagens...");
+
     api
       .get("/uploads")
       .then((response) => {
         setImagesList(response.data);
+        setIsLoading(false);
+        return;
       })
       .catch((error) => {
-        console.log(error);
+        setStatus("Erro: obtivemos algum problema no carregamento das imagens");
+        setTimeout(() => {
+          setIsLoading(false);
+          history.push("/admin");
+        }, 4000);
+        return;
       });
-  }, []);
+  }, [history]);
 
   useEffect(() => {
     api
@@ -106,7 +116,10 @@ const UpdateAnnounce: React.FC = () => {
     }
     if (imageURL === "") {
       errors.push("imageURL is empty");
-      setStatusImageURL(["error", "escolha alguma das imagens"]);
+      setStatusImageURL([
+        "error",
+        "Selecione uma das imagens como capa de anúncio",
+      ]);
     }
     return errors.length === 0 ? true : false;
   };
@@ -148,6 +161,7 @@ const UpdateAnnounce: React.FC = () => {
           setIsLoading(false);
           history.push("/admin");
         }, 4000);
+        return
       });
   };
 
@@ -198,7 +212,11 @@ const UpdateAnnounce: React.FC = () => {
             />
           </Column>
           <Column>
-            <Legend>Selecione a imagem de anúncio</Legend>
+            {statusImageURL[0] === "error" ? (
+              <Warning>{statusImageURL[1]}</Warning>
+            ) : (
+              <Legend>Selecione a imagem de anúncio</Legend>
+            )}
             <List>
               {imagesList.map((image, index) => (
                 <Radio key={index}>
@@ -288,6 +306,18 @@ const Column = styled.div`
 const Legend = styled.h2`
   font: 700 1.4rem "Open Sans", sans-serif;
   color: var(--color-title);
+  margin: 0;
+  margin-bottom: 0.5rem;
+  margin-left: 1rem;
+
+  @media (max-width: 1280px) {
+    margin-bottom: 2rem;
+  }
+`;
+
+const Warning = styled.h2`
+  font: 700 1.4rem "Open Sans", sans-serif;
+  color: var(--color-primary);
   margin: 0;
   margin-bottom: 0.5rem;
   margin-left: 1rem;
