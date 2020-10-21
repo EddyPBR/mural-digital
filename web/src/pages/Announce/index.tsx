@@ -81,7 +81,9 @@ const Announce: React.FC<AnnounceParams> = (props) => {
       <Content>
         <Container>
           <SecundaryTitle>{announce.title_extended}</SecundaryTitle>
-          <Text>{announce.text}</Text>
+          {announce.text.split("\n").map((text) => {
+            return <Text>{text}</Text>
+          })}
         </Container>
       </Content>
       <HomeButtom />

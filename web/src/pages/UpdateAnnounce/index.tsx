@@ -209,7 +209,9 @@ const UpdateAnnounce: React.FC = () => {
               onChange={(event) => setText(event.target.value)}
               error={statusText[0] === "error" ? true : false}
               message={statusText[1]}
-            />
+            >
+              {text.split("\n")}
+            </Textarea>
           </Column>
           <Column>
             {statusImageURL[0] === "error" ? (
