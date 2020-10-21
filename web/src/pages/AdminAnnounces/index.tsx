@@ -117,11 +117,14 @@ const Title = styled.h1`
 `;
 
 const Table = styled.table`
+  max-width: 90vw;
   width: 100%;
   display: block;
+  overflow-x: scroll;
 `;
 
 const TableHeader = styled.thead`
+  min-width: 96rem;
   width: calc(100% - 16px);
   display: flex;
   justify-content: center;
@@ -145,6 +148,7 @@ const TableHeader = styled.thead`
 `;
 
 const TableBody = styled.tbody`
+  min-width: 96rem;
   max-height: 50vh;
   overflow-y: scroll;
   display: block;
