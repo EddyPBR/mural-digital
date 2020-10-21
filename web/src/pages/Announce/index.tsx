@@ -4,7 +4,7 @@ import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
 import BounceLoader from "react-spinners/BounceLoader";
 
-import HomeButtom from "../../components/HomeButton";
+import HomeButton from "../../components/HomeButton";
 
 import api from "../../services/api";
 import formatDate from "../../utils/formatDate";
@@ -81,12 +81,12 @@ const Announce: React.FC<AnnounceParams> = (props) => {
       <Content>
         <Container>
           <SecundaryTitle>{announce.title_extended}</SecundaryTitle>
-          {announce.text.split("\n").map((text) => {
-            return <Text>{text}</Text>
+          {announce.text.split("\n").map((text, index) => {
+            return <Text key={index}>{text}</Text>
           })}
         </Container>
       </Content>
-      <HomeButtom />
+      <HomeButton />
     </Announcement>
   );
 };

@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { debounce } from "lodash";
 
 import styled, { keyframes } from "styled-components";
 
@@ -11,23 +10,8 @@ interface AnimateProp {
 }
 
 const HomeButton: React.FC = () => {
-  const [showScroll, setShowScroll] = useState(false);
-
-  useEffect( () => { 
-    const main = document.getElementsByTagName("main")[0];
-    setShowScroll(main.scrollHeight + 300 <= window.innerHeight);
-  }, []);
-
-  const checkScrollTop = debounce(() => {
-    if (!showScroll && window.pageYOffset > 150) return setShowScroll(true);
-    
-    if (showScroll && window.pageYOffset <= 150) return setShowScroll(false);
-  }, 100);
-
-  window.addEventListener("scroll", checkScrollTop);
-
   return (
-    <Button animate={showScroll}>
+    <Button animate={true}>
       <Link to="/">
         <FaHome size={32} />
       </Link>
