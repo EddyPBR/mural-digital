@@ -5,6 +5,7 @@ import Billboard from "@models/billboardModel";
 
 import getDateAndHour from "../utils/getDateAndHour";
 import verifyObjectValues from "../utils/verifyObjectValues";
+import verifyImage from "../utils/verifyImage";
 
 class BillboardController {
   async index(request: Request, response: Response) {
@@ -25,6 +26,10 @@ class BillboardController {
     const { title, title_extended, image_url, text } = request.body;
 
     const newData = getDateAndHour();
+
+    if(!verifyImage(image_url)) {
+      return response.sendStatus(400);
+    }
 
     const billboard = {
       title,
@@ -55,6 +60,10 @@ class BillboardController {
     const exists = await repository.findOne(id);
     if (!exists) {
       return response.sendStatus(404);
+    }
+
+    if(!verifyImage(image_url)) {
+      return response.sendStatus(400);
     }
 
     const newData = getDateAndHour();
