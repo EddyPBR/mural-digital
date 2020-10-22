@@ -35,9 +35,15 @@ Este projeto não é nada muito complexo, dentre as tecnologias utilizadas estã
 <br />
 
 - [Node.js](https://nodejs.org/en/)
+- [Typescript](https://www.typescriptlang.org/)
 - [ReactJS](https://pt-br.reactjs.org/)
-- [Figma](https://www.figma.com/)
+- [React-Native](https://reactnative.dev/)
 - [Express](https://expressjs.com/pt-br/)
+- [TypeORM](https://typeorm.io/)
+- [MySQL](https://www.mysql.com/)
+- [Docker](https://www.docker.com/)
+- [Styled-Components](https://styled-components.com/)
+- [Figma](https://www.figma.com/)
 - [ESLint](https://eslint.org/)
 - [Prettier](https://prettier.io/)
 
@@ -49,15 +55,21 @@ Este projeto não é nada muito complexo, dentre as tecnologias utilizadas estã
 A interface foi elaborada por mim [EddyPBR](https://github.com/EddyPBR/) utilizando a plataforma FIGMA, para acessar o 
 projeto e ver o protótipo de interface basta acessar este 
 [Link](https://www.figma.com/file/GjoZ01qEHzgckLer6Wp5jt/Mural-Digital?node-id=0%3A1) e aproveite.
-
+<br />
 
 <p align="center">
-  <img alt="mural-digital" src=".github/home.png" margin-right="20px" />
-  <img alt="mural-digital" src=".github/anuncio.png" />
-  <img alt="mural-digital" src=".github/login-admin.png" />
-  <img alt="mural-digital" src=".github/lista-de-anuncios.png" />
-  <img alt="mural-digital" src=".github/cadastro.png" />
-  <img alt="mural-digital" src=".github/deletar.png" />
+  <img alt="mural-digital" src=".github/home.png" margin-right="20px" /><br />
+  <img alt="mural-digital" src=".github/anuncio.png" /><br />
+  <img alt="mural-digital" src=".github/login-admin.png" /><br />
+  <img alt="mural-digital" src=".github/lista-de-anuncios.png" /><br />
+  <img alt="mural-digital" src=".github/cadastro.png" /><br />
+  <img alt="mural-digital" src=".github/deletar.png" /><br />
+</p>
+
+<p align="center">
+  <img alt="mural-digital" src=".github/home-mobile.png" margin-right="20px" /><br />
+  <img alt="mural-digital" src=".github/lista-de-anuncios-mobile.png" margin-right="20px" /><br />
+  <img alt="mural-digital" src=".github/anuncio-mobile.png" /><br />
 </p> 
 
 <br />
@@ -65,6 +77,7 @@ projeto e ver o protótipo de interface basta acessar este
 ## :memo: License
 
 Este projeto esta sob a [MIT license](LICENSE) for more details
+<br />
 <br />
 
 ## :wave: Social
