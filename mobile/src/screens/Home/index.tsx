@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components/native";
+import { useNavigation } from "@react-navigation/native";
 
 import * as Animatable from "react-native-animatable";
 import FontAwesomeIcons from "react-native-vector-icons/FontAwesome";
@@ -12,6 +13,10 @@ const Home: React.FC = () => {
   const [loaded, error] = useFonts({
     OpenSans: require("../../assets/fonts/OpenSans-Regular.ttf"),
   });
+
+  const navigation = useNavigation();
+
+  const handleNavigateToBillboard = () => navigation.navigate("Billboard");
 
   if (!loaded) {
     return (
@@ -39,7 +44,7 @@ const Home: React.FC = () => {
         style={{ marginTop: 16 }}
       >
         <FontAwesomeIcons
-          onPress={() => alert("Precisa navegar para a próxima página")}
+          onPress={() => handleNavigateToBillboard()}
           name="angle-double-down"
           size={42}
           color="#E52F34"
