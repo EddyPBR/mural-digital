@@ -6894,6 +6894,11 @@ react-native-animatable@^1.3.3:
   dependencies:
     prop-types "^15.7.2"
 
+react-native-animated-spinkit@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/react-native-animated-spinkit/-/react-native-animated-spinkit-1.4.2.tgz#cb60ff8bcc2bb848409d9aa85ed528646ad1f953"
+  integrity sha512-CLFkynkqRueQK/XUknleiYQr3T0E8cY0KbuaV78JGiHhnF12C3k0ngDAOk6FHssZn3JXnTOVkJsrIBOYkttRmA==
+
 react-native-gesture-handler@~1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.7.0.tgz#0ef74a5ba836832e497dc49eb1ce58baa6c617e5"
