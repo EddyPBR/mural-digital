@@ -1,25 +1,91 @@
-import React from "react";
-import { ScrollView } from "react-native";
+import React, { useEffect, useState } from "react";
+import { RouteProp } from '@react-navigation/native';
 import styled from "styled-components/native";
+import SvgUri from "expo-svg-uri";
 
-import Example from "../../assets/images/boilerboard.png";
+import LoadingAnimation from "../../components/LoadingAnimation";
 
-const Announce: React.FC = () => {
+import api from "../../services/api";
+
+import formatDate from "../../utils/formatDate";
+
+interface AnnounceParams {
+  route: RouteProp<{ params: { id: string } }, "params">;
+}
+
+interface Announce {
+  id: string;
+  title: string;
+  title_extended: string;
+  text: string;
+  image_url: string;
+  updated_at: string;
+}
+
+const PREFIX = "http://";
+
+const Announce: React.FC<AnnounceParams> = (params) => {
+  const { id } = params.route.params;
+
+  const [announce, setAnnounce] = useState({} as Announce);
+  const [isLoading, setIsLoading] = useState(true);
+  const [status, setStatus] = useState("Carregando...");
+
+  const formatedDate = formatDate;
+
+  useEffect(() => {
+    api
+      .get(`/billboard/${id}`)
+      .then((response) => setAnnounce(response.data))
+      .catch((error) => {
+        if (error.response.status === 404) {
+          return setStatus("Erro: anúncio não encontrado");
+        }
+        if (error.response.status === 500) {
+          return setStatus("Erro interno do servidor");
+        }
+        return setStatus(
+          "Erro desconhecido no sistema, por favor recarregue a página"
+        );
+      });
+  }, [id]);
+
+  useEffect(() => {
+    if (Object.keys(announce).length) {
+      setIsLoading(false);
+    }
+  }, [announce]);
+
+  if (isLoading) {
+    return (
+      <LoadScreen>
+        <LoadingAnimation />
+        <Text>{status}</Text>
+      </LoadScreen>
+    );
+  }
+
   return (
     <Screen>
-      <Image source={Example} />
-      <Date>01/01/2020</Date>
-      <Title>Lorem Ipsum Dollor Isum - Avoy denol uaidê</Title>
-      <Text>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eleifend
-        magna eu tristique pretium. Donec sed lorem faucibus, fermentum quam at,
-        vulputate ex. Sed sed mauris eget urna congue laoreet.
-      </Text>
-      <Text>
-        Donec enim massa, egestas in sollicitudin nec, sagittis nec leo.
-        Vestibulum imperdiet massa ante, euismod efficitur tortor rhoncus eu.
-        Vivamus tincidunt dolor eu rutrum pretium.
-      </Text>
+      <SvgUri 
+        width="176"
+        height="190"
+        source={{
+          uri: `${PREFIX + announce.image_url}`
+        }}
+        style={{
+          marginTop: 12,
+          marginBottom: 12,
+          maxWidth: 224,
+          maxHeight: 224,
+          alignSelf: "center"
+        }}
+      />
+      <Date>{formatedDate(announce.updated_at)}</Date>
+      <Title>{announce.title}</Title>
+      {announce.text.split("\n").map((text, index) => {
+        return <Text key={index}>{text}</Text>
+      })}
     </Screen>
   );
 };
@@ -32,11 +98,14 @@ const Screen = styled.ScrollView`
   margin-bottom: 32px;
 `;
 
-const Image = styled.Image`
-  margin: 12px 0px;
-  max-width: 224px;
-  max-height: 224px;
-  align-self: center;
+const LoadScreen = styled.View`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  padding: 32px 32px;
+  margin-bottom: 32px;
 `;
 
 const Date = styled.Text`
