@@ -2,14 +2,29 @@ import React from "react";
 import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
+import SvgUri from "expo-svg-uri";
 
-import Example from "../../assets/images/boilerboard.png";
+interface CardComponent {
+  id: string;
+  title: string;
+  text: string;
+  image_url: string
+  date?: string;
+}
 
-const AnnounceCard: React.FC = () => {
+const PREFIX = "http://";
+
+const AnnounceCard: React.FC<CardComponent> = (props) => {
+  const { id, title, text, date, image_url } = props;
+
   const navigation = useNavigation();
 
+  const handleNavigateToAnnounce = (id: string) => navigation.navigate("Announce", {
+    id: id,
+  });
+
   return (
-    <TouchableOpacity onPress={() => navigation.navigate("Announce")}>
+    <TouchableOpacity onPress={() => handleNavigateToAnnounce(id)}>
       <Card
         style={{
           shadowColor: "#000",
@@ -23,13 +38,16 @@ const AnnounceCard: React.FC = () => {
           marginRight: 32,
         }}
       >
-        <Image source={Example} />
-        <Title>Lorem Ipsum Dollor Isum</Title>
-        <Text>
-          Estas são as ultimos avisos da Rally Motos. Arraste para os lados e
-          selecione a notícia desejada ...
-        </Text>
-        <Date>01/01/2020</Date>
+        <SvgUri 
+          width="176"
+          height="190"
+          source={{
+            uri: `${PREFIX + image_url}`
+          }}
+        />
+        <Title>{title}</Title>
+        <Text>{text}</Text>
+        <Date>{date}</Date>
       </Card>
     </TouchableOpacity>
   );
@@ -46,15 +64,11 @@ const Card = styled.View`
   align-items: center;
 `;
 
-const Image = styled.Image`
-  height: 176px;
-  width: 190px;
-`;
-
 const Title = styled.Text`
   font: 700 22px "OpenSans";
   margin: 8px 0px;
   color: #253137;
+  align-self: flex-start;
 `;
 
 const Text = styled.Text`
@@ -62,6 +76,7 @@ const Text = styled.Text`
   line-height: 22px;
   color: #253137;
   height: 56px;
+  align-self: flex-start;
 `;
 
 const Date = styled.Text`
