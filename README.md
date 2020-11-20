@@ -38,6 +38,7 @@ Este projeto não é nada muito complexo, dentre as tecnologias utilizadas estã
 - [Typescript](https://www.typescriptlang.org/)
 - [ReactJS](https://pt-br.reactjs.org/)
 - [React-Native](https://reactnative.dev/)
+- [Expo](https://expo.io/)
 - [Express](https://expressjs.com/pt-br/)
 - [TypeORM](https://typeorm.io/)
 - [MySQL](https://www.mysql.com/)
