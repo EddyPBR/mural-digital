@@ -16,11 +16,11 @@
 
 ## Como rodar o projeto
 
-A priori você deve ter um banco de dados mongodb ou conta no mongodb atlas. 
-Dito isso, você deve configurar o arquivo .env deste projeto. 
+A priori você deve ter um banco de dados mongodb ou conta no mongodb atlas e configurar o banco de dados. 
+Dito isso, você deve configurar o arquivo .env deste projeto, definir a string de conexão ao banco de dados 
+no arquivo server.ts localizado [aqui](./src/server.ts) na variavel URI. 
 
-Definir a string de conexão ao banco de dados no caminho ./src/server.ts na variavel URI. 
-Entre no diretório onde este arquivo README.md esta localizado, abra o terminal e execute 
+Agora entre no diretório onde este arquivo README.md esta localizado, abra o terminal e execute 
 a lista de comandos a seguir:
 
 - yarn ou npm
@@ -112,14 +112,14 @@ você pode adquirir o insomnia app [aqui](https://insomnia.rest/download/)
 
 `POST /billboard`
 
-`BODY: {"title": "Title", "extendedTitle": "Extended title", "imageUr": "http://dominio.com/", "text": "Um texto qualquer so pra encher o saco!"}`
+`BODY: {"title": "Title", "extendedTitle": "Extended title", "imageUrl": "http://dominio.com/", "text": "Um texto qualquer so pra encher o saco!"}`
 `HEADER: { authentication: Bearer token }`
 
 #### Atualizar
 
 `UPDATE /billboard`
 
-`BODY: {"title": "Title", "extendedTitle": "Extended title", "imageUr": "http://dominio.com/", "text": "Um texto qualquer so pra encher o saco!"}`
+`BODY: {"title": "Title", "extendedTitle": "Extended title", "imageUrl": "http://dominio.com/", "text": "Um texto qualquer so pra encher o saco!"}`
 `HEADER: { authentication: Bearer token }`
 
 #### Remover
@@ -178,7 +178,7 @@ você pode adquirir o insomnia app [aqui](https://insomnia.rest/download/)
 
 `POST /tokens`
 
-`BODY: { "data": "ExponentPushToken[sad121v12b21421bs]", "type":  " " `
+`BODY: { "data": "ExponentPushToken[sad121v12b21421bs] }", "type":  " " `
 `HEADER: NENHUM`
 
 <br />
@@ -191,4 +191,4 @@ você pode adquirir o insomnia app [aqui](https://insomnia.rest/download/)
 
 ## Criptografia
 
-#### Foi utilizado BCrypt como ferramente de criptografia dos dados.
+Foi utilizado BCrypt como ferramente de criptografia dos dados.
