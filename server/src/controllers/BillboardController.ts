@@ -1,110 +1,119 @@
 import { Request, Response } from "express";
-import { getRepository } from "typeorm";
 
-import Billboard from "@models/billboardModel";
+import Billboard from "@models/BillboardModel";
 
-import getDateAndHour from "../utils/getDateAndHour";
-import verifyObjectValues from "../utils/verifyObjectValues";
-import verifyImage from "../utils/verifyImage";
+import verifyImage from "@utils/verifyImage";
+
+import axios from "axios";
+
+const HOST = process.env.HOST;
 
 class BillboardController {
   async index(request: Request, response: Response) {
-    const repository = getRepository(Billboard);
-
-    const { id } = request.params
+    const { id } = request.params;
 
     try {
-      const billboard = !id ? await repository.find() : await repository.findOne(id);
-      return billboard ? response.json(billboard) : response.sendStatus(404);
-    } catch {
-      return response.status(500);
+      const billboards = id
+        ? await Billboard.findOne({ _id: id })
+        : await Billboard.find().sort({createdAt: -1});
+
+      if (!billboards) {
+        return response
+          .status(404)
+          .json({ error: "nenhum anúncio encontrado" });
+      }
+
+      return response.status(200).json(billboards);
+    } catch (error) {
+      return response
+        .status(400)
+        .json({ error: "foi identificado um erro desconhecido" });
     }
   }
 
   async create(request: Request, response: Response) {
-    const repository = getRepository(Billboard);
-    const { title, title_extended, image_url, text } = request.body;
+    const { title, extendedTitle, imageUrl, text } = request.body;
 
-    const newData = getDateAndHour();
-
-    if(!verifyImage(image_url)) {
-      return response.sendStatus(400);
-    }
-
-    const billboard = {
-      title,
-      title_extended,
-      image_url,
-      text,
-      created_at: newData,
-      updated_at: newData,
-    };
-
-    if (verifyObjectValues(billboard) === false) {
-      return response.sendStatus(400);
+    if (!verifyImage(imageUrl)) {
+      return response
+        .status(400)
+        .json({ error: "URL da imagem não encontrada" });
     }
 
     try {
-      await repository.save(billboard);
-      return response.status(200).json(billboard);
-    } catch {
-      return response.sendStatus(500);
+      const billboard = await Billboard.create({
+        title,
+        extendedTitle,
+        imageUrl,
+        text,
+      });
+
+      try {
+        await axios.get(`https://${HOST}/tokens/notify`);
+      } catch (error) {
+        console.log("NOTIFY ERROR:", error);
+      }
+
+      return response.status(201).json(billboard);
+    } catch (error) {
+      return response.status(500).json({ error: "Ocorreu um erro inesperado" });
     }
   }
 
   async update(request: Request, response: Response) {
-    const repository = getRepository(Billboard);
-    const { title, title_extended, image_url, text } = request.body;
+    const { title, extendedTitle, imageUrl, text } = request.body;
     const { id } = request.params;
 
-    const exists = await repository.findOne(id);
-    if (!exists) {
-      return response.sendStatus(404);
+    try {
+      await Billboard.findOne({ _id: id });
+    } catch (error) {
+      return response.status(404).json({ error: "Anúncio não encontrado" });
     }
 
-    if(!verifyImage(image_url)) {
-      return response.sendStatus(400);
-    }
-
-    const newData = getDateAndHour();
-
-    const billboard = {
-      title,
-      title_extended,
-      image_url,
-      text,
-      updated_at: newData,
-    };
-
-    if (verifyObjectValues(billboard) === false) {
-      return response.sendStatus(400);
+    if (!verifyImage(imageUrl)) {
+      return response
+        .status(400)
+        .json({ error: "URL da imagem não encontrada" });
     }
 
     try {
-      await repository.update(id, billboard);
+      await Billboard.findByIdAndUpdate(
+        { _id: id },
+        {
+          title,
+          extendedTitle,
+          imageUrl,
+          text,
+          updatedAt: new Date(),
+        }
+      );
 
-      const newBillboard = await repository.findOne(id);
+      const updatedBillboard = await Billboard.findById({ _id: id });
 
-      return response.status(200).json(newBillboard);
-    } catch {
-      return response.status(500);
+      return response.status(200).json(updatedBillboard);
+    } catch (error) {
+      return response
+        .status(500)
+        .json({ error: "Não foi possivel atualizar o anúncio" });
     }
   }
 
   async delete(request: Request, response: Response) {
-    const repository = getRepository(Billboard);
     const { id } = request.params;
 
-    const exists = await repository.findOne(id);
-    if (!exists) {
-      return response.sendStatus(404);
+    try {
+      await Billboard.findOne({ _id: id });
+    } catch (error) {
+      return response.status(404).json({ error: "Anúncio não encontrado" });
     }
 
     try {
-      await repository.delete(id);
-      return response.status(200).json(exists);
-    } catch {
-      return response.sendStatus(500);
+      const updatedBillboard = await Billboard.findByIdAndDelete({ _id: id });
+      return response.status(200).json(updatedBillboard);
+    } catch (error) {
+      return response
+        .status(500)
+        .json({ error: "Não foi possivel remover o anúncio" });
     }
   }
 }

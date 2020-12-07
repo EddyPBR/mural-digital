@@ -1,18 +1,22 @@
 import fs from "fs";
 import path from "path";
 
-const PORT = process.env.PORT;
+import "dotenv/config";
+
+// const PORT = process.env.PORT;
 const HOST = process.env.HOST;
 
 const verifyImage = (file_url: string) => {
-  const directory = path.resolve(__dirname, "..", "..", "uploads");
+  const directory = path.resolve(__dirname, "..", "..", "public", "assets");
 
   if (!directory) return false;
 
   try {
     const files = fs.readdirSync(directory);
 
-    const imagesList = files.map((file) => `${HOST}:${PORT}/uploads/${file}`);
+    const imagesList = files.map(
+      (file) => `${HOST}/public/assets/${file}`
+    );
 
     if (!imagesList) return false;
 

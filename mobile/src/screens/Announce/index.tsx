@@ -14,12 +14,12 @@ interface AnnounceParams {
 }
 
 interface Announce {
-  id: string;
+  _id: string;
   title: string;
-  title_extended: string;
+  extendedTitle: string;
   text: string;
-  image_url: string;
-  updated_at: string;
+  imageUrl: string;
+  updatedAt: string;
 }
 
 const PREFIX = "http://";
@@ -71,7 +71,7 @@ const Announce: React.FC<AnnounceParams> = (params) => {
         width="176"
         height="190"
         source={{
-          uri: `${PREFIX + announce.image_url}`
+          uri: `${PREFIX + announce.imageUrl}`
         }}
         style={{
           marginTop: 12,
@@ -81,7 +81,7 @@ const Announce: React.FC<AnnounceParams> = (params) => {
           alignSelf: "center"
         }}
       />
-      <Date>{formatedDate(announce.updated_at)}</Date>
+      <Date>{formatedDate(announce.updatedAt)}</Date>
       <Title>{announce.title}</Title>
       {announce.text.split("\n").map((text, index) => {
         return <Text key={index}>{text}</Text>

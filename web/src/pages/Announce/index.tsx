@@ -14,10 +14,10 @@ const PREFIX = process.env.REACT_APP_PREFIX;
 interface Announce {
   id: string;
   title: string;
-  title_extended: string;
+  extendedTitle: string;
   text: string;
-  image_url: string;
-  updated_at: string;
+  imageUrl: string;
+  updatedAt: string;
 }
 
 interface AnnounceParams {
@@ -70,19 +70,19 @@ const Announce: React.FC<AnnounceParams> = (props) => {
     <Announcement>
       <Header>
         <Image
-          src={`${PREFIX}${announce.image_url}`}
+          src={`${PREFIX}://${announce.imageUrl}`}
           alt="Sejam todos bem-vindos!"
         />
         <HeaderContent>
           <Title>{announce.title}</Title>
-          <Date>{formatedDate(announce.updated_at)}</Date>
+          <Date>{formatedDate(announce.updatedAt)}</Date>
         </HeaderContent>
       </Header>
       <Content>
         <Container>
-          <SecundaryTitle>{announce.title_extended}</SecundaryTitle>
+          <SecundaryTitle>{announce.extendedTitle}</SecundaryTitle>
           {announce.text.split("\n").map((text, index) => {
-            return <Text key={index}>{text}</Text>
+            return <Text key={index}>{text}</Text>;
           })}
         </Container>
       </Content>
@@ -105,15 +105,12 @@ const Header = styled.header`
   height: 45rem;
   border-radius: 0 0 12rem 12rem;
   background-color: #fff;
-
   display: flex;
   flex-direction: row;
   justify-content: center;
-
   @media (max-width: 1080px) {
     border-radius: 0 0 6rem 6rem;
   }
-
   @media (max-width: 780px) {
     flex-direction: column;
     align-items: center;
@@ -135,11 +132,9 @@ const HeaderContent = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 30rem;
-
   @media (max-width: 1280px) {
     margin-left: 6rem;
   }
-
   @media (max-width: 780px) {
     margin: 3rem 0 6rem 0;
   }
@@ -156,7 +151,6 @@ const Date = styled.span`
   margin-top: 1.4rem;
   display: flex;
   align-self: flex-end;
-
   @media (max-width: 780px) {
     margin-top: 0;
   }
@@ -168,15 +162,12 @@ const Content = styled.main`
   background-color: #fff;
   margin-bottom: 6rem;
   border-radius: 0 0 6rem 6rem;
-
   @media (max-width: 1280px) {
     max-width: 78rem;
   }
-
   @media (max-width: 960px) {
     max-width: 80vw;
   }
-
   @media (max-width: 580px) {
     max-width: 90vw;
     filter: drop-shadow(2px 12px 4px rgba(0, 0, 0, 0.15));
@@ -186,19 +177,15 @@ const Content = styled.main`
 
 const Container = styled.div`
   margin: 7rem 13rem;
-
   @media (max-width: 1280px) {
     margin: 6rem 10rem;
   }
-
   @media (max-width: 900px) {
     margin: 6rem 7rem;
   }
-
   @media (max-width: 780px) {
     margin: 6rem 4rem;
   }
-
   @media (max-width: 580px) {
     margin: 6rem 2rem;
   }
@@ -232,14 +219,11 @@ const LoadingPage = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   animation: ${OpacityAnimation} 2s linear;
-
   && > p {
     margin-top: 3rem;
     margin-bottom: 1rem;
   }
-
   && > a {
     font: 400 1.8rem/3.2rem "Roboto", sans-serif;
     color: var(--color-secundary-light);

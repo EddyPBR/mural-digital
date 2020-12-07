@@ -2,12 +2,12 @@ import { Request, Response } from "express";
 import fs from "fs";
 import path from "path";
 
-const PORT = process.env.PORT;
+// const PORT = process.env.PORT;
 const HOST = process.env.HOST;
 
 class ImageItemController {
   async index(request: Request, response: Response) {
-    const directory = path.resolve(__dirname, "..", "..", "uploads");
+    const directory = path.resolve(__dirname, "..", "..", "public", "assets");
 
     if (!directory) return response.sendStatus(404);
 
@@ -16,7 +16,7 @@ class ImageItemController {
 
       const imagesList = files.map((file) => ({
         title: file.split(".")[0],
-        url: `${HOST}:${PORT}/uploads/${file}`,
+        url: `${HOST}/public/assets/${file}`,
       }));
 
       if (!imagesList) return response.json({});

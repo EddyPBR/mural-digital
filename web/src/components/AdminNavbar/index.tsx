@@ -12,7 +12,7 @@ const AdminNavbar: React.FC = () => {
     event.preventDefault();
     logout();
     history.push("/admin");
-  }
+  };
 
   return (
     <Header>
@@ -38,7 +38,6 @@ const Header = styled.header`
   width: 100%;
   background: #ffffff;
   box-shadow: 2px 2px 6px 2px rgba(0, 0, 0, 0.25);
-
   display: flex;
   justify-content: center;
 `;
@@ -56,17 +55,14 @@ const Info = styled.div`
   display: flex;
   align-items: center;
   font: 400 1.4rem "Roboto", sans-serif;
-
   && > svg {
     color: var(--color-secundary);
     filter: brightness(1.5);
     margin-right: 0.8rem;
   }
-
   && > span {
     color: var(--color-text);
   }
-
   && > a {
     margin-left: 0.3rem;
     text-decoration: none;
@@ -74,7 +70,6 @@ const Info = styled.div`
     transition: 0.5s;
     filter: brightness(1.5);
   }
-
   && > a:hover {
     text-decoration: underline;
   }
@@ -89,15 +84,12 @@ const Logout = styled.div`
     color: var(--color-primary);
     cursor: pointer;
     transition: 0.5s;
-
     display: flex;
     align-items: center;
   }
-
   && > a > svg {
     margin-right: 0.8rem;
   }
-
   && > a:hover {
     filter: brightness(1.2);
     transform: scale(1.1);

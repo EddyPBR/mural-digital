@@ -32,38 +32,45 @@ const TableRow: React.FC<TableRow> = (props) => {
   const handleHideDeleteBox = (event: any) => {
     event.preventDefault();
     setEnableDelete(false);
-  }
+  };
 
   const handleDeleteAnnounce = (event: any) => {
     event.preventDefault();
     setIsLoading(true);
-    setStatus("carregando...")
+    setStatus("carregando...");
     setEnableDelete(false);
 
-    api.delete(`/billboard/${id}`, { headers: { 'Authorization': `Bearer ${sessionStorage.getItem('access_token')}` }})
-    .then( (response) => {
-      if (response.status === 200) return setStatus("Removido com sucesso!");
-    })
-    .catch( (error) => {
-      if(error.response.status === 500) {
-        return setStatus("Erro interno do servidor, tente novamente :(");
-      }
-      if(error.response.status === 404) {
-        return setStatus("Erro: anúncio não encontrado :(");
-      }
-      return setStatus("Ops! ocorreu um erro inesperado, tente novamente :(");
-    })
-    .finally( () => {
-      setTimeout(() => {
-        setIsLoading(false);
-        history.push("/admin");
-      }, 4000);
-    });
-  }
+    api
+      .delete(`/billboard/${id}`, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) return setStatus("Removido com sucesso!");
+      })
+      .catch((error) => {
+        if (error.response.status === 500) {
+          return setStatus("Erro interno do servidor, tente novamente :(");
+        }
+        if (error.response.status === 404) {
+          return setStatus("Erro: anúncio não encontrado :(");
+        }
+        return setStatus("Ops! ocorreu um erro inesperado, tente novamente :(");
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setIsLoading(false);
+          history.push("/admin");
+        }, 4000);
+      });
+  };
 
   return (
     <Row>
-      <td><Link to={`/announces/${id}`}>{id}</Link></td>
+      <td>
+        <Link to={`/announces/${id}`}>{id}</Link>
+      </td>
       <td>{title}</td>
       <td>{date}</td>
       <td>
@@ -91,27 +98,35 @@ const TableRow: React.FC<TableRow> = (props) => {
             </Info>
             <RowBox>
               <Button>
-                <Link onClick={(event) => handleDeleteAnnounce(event)} to={`/admin/announces/delete/${id}`}>REMOVER</Link>
+                <Link
+                  onClick={(event) => handleDeleteAnnounce(event)}
+                  to={`/admin/announces/delete/${id}`}
+                >
+                  REMOVER
+                </Link>
               </Button>
-              <Link onClick={(event) => handleHideDeleteBox(event)} to={`/admin/announces/`}>Não remover</Link>
+              <Link
+                onClick={(event) => handleHideDeleteBox(event)}
+                to={`/admin/announces/`}
+              >
+                Não remover
+              </Link>
             </RowBox>
           </Box>
         </BlackWindow>
       )}
 
-      {
-      isLoading && 
-      <BlackWindow>
-        <Box>
-        <LoadingPage>
-          <Text>{status}</Text>
-          <BounceLoader size={160} color={"#E52F34"} />
-          <Text>Aguarde o redirecionamento automático!</Text>
-        </LoadingPage>
-        </Box>
-      </BlackWindow>
-      }
-
+      {isLoading && (
+        <BlackWindow>
+          <Box>
+            <LoadingPage>
+              <Text>{status}</Text>
+              <BounceLoader size={160} color={"#E52F34"} />
+              <Text>Aguarde o redirecionamento automático!</Text>
+            </LoadingPage>
+          </Box>
+        </BlackWindow>
+      )}
     </Row>
   );
 };
@@ -125,9 +140,7 @@ const Row = styled.tr`
   gap: 3rem;
   border-radius: 1rem;
   margin-bottom: 3rem;
-
   table-layout: fixed;
-
   && > td {
     font: 400 1.6rem/2.4rem "Roboto", sans-serif;
     color: var(--color-text);
@@ -135,12 +148,10 @@ const Row = styled.tr`
     border: 0.1rem solid #fff;
     border-bottom: 0.1rem solid #c8c9df;
     text-align: center;
-
     display: flex;
     align-items: center;
     justify-content: center;
   }
-
   && > td > a {
     font: 400 1.6rem/2.4rem "Roboto", sans-serif;
     color: var(--color-text);
@@ -151,58 +162,47 @@ const Row = styled.tr`
     color: var(--color-secundary-light);
     width: 100%;
     height: 100%;
-
     display: flex;
     align-items: center;
     justify-content: center;
   }
-
   && > td:hover {
     transition: 1s;
     border: 0.1rem solid #c8c9df;
   }
-
   && > td:nth-child(1):hover {
-    background-color: #BFC7F7;
+    background-color: #bfc7f7;
   }
-
   && > td:nth-child(4) {
     color: #f38230;
   }
-
   && > td:nth-child(5) {
     color: #d5151a;
   }
-
   && > td:nth-child(4) > a {
     width: 100%;
     height: 100%;
     color: #f38230;
     text-decoration: none;
-
     display: flex;
     align-items: center;
     justify-content: center;
   }
-
   && > td:nth-child(5) > a {
     width: 100%;
     height: 100%;
     text-decoration: none;
     color: #d5151a;
-
     display: flex;
     align-items: center;
     justify-content: center;
   }
-
   && > td:nth-child(4):hover {
     background: rgba(253, 216, 53, 0.4);
     border-color: rgba(253, 216, 53, 0.4);
     transition: 0.3s;
     cursor: pointer;
   }
-
   && > td:nth-child(5):hover {
     background: rgba(213, 21, 26, 0.2);
     border-color: rgba(213, 21, 26, 0.2);
@@ -220,7 +220,6 @@ const BlackWindow = styled.td`
   position: absolute;
   z-index: 1000;
   background-color: rgba(0, 0, 0, 0.7);
-
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -235,13 +234,11 @@ const Box = styled.div`
   background: #ffffff;
   box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
   padding: 3rem 4rem;
-
   @media (max-width: 480px) {
     padding: 3rem 2rem;
   }
@@ -258,7 +255,6 @@ const Info = styled.p`
   font: 400 1.6rem/2.6rem "Roboto", sans-serif;
   color: var(--color-text);
   margin-bottom: 4rem;
-
   && > span {
     font: 700 1.6rem "Open Sans", sans-serif;
     color: var(--color-title);
@@ -268,26 +264,22 @@ const Info = styled.p`
 const RowBox = styled.div`
   width: 100%;
   margin-bottom: 2rem;
-
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-
   && > a {
     color: var(--color-primary);
     font: 400 1.6rem "Roboto", sans-serif;
     text-decoration: none;
     margin-left: 3rem;
   }
-
   && > a:hover {
     text-decoration: underline;
   }
@@ -312,41 +304,34 @@ const Button = styled.div`
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-
   &&:hover {
     filter: brightness(1.1);
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8);
   }
-
   && > a {
     width: 100%;
     height: 100%;
     text-decoration: none;
     font: 700 1.6rem "Open Sans", sans-serif;
     color: var(--color-background);
-
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
   }
-
   && > a > svg {
     margin-right: 0.8rem;
   }
-
   @media (max-width: 520px) {
     width: 14rem;
     height: 4.6rem;
     font-size: 1.6rem;
   }
 `;
-
 
 const Text = styled.p`
   font: 400 1.6rem/3.2rem "Roboto", sans-serif;
@@ -369,14 +354,11 @@ const LoadingPage = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   animation: ${OpacityAnimation} 2s linear;
-
   && > p {
     margin-top: 3rem;
     margin-bottom: 1rem;
   }
-
   && > a {
     font: 400 1.8rem/3.2rem "Roboto", sans-serif;
     color: var(--color-secundary-light);

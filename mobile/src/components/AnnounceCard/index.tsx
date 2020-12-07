@@ -8,14 +8,14 @@ interface CardComponent {
   id: string;
   title: string;
   text: string;
-  image_url: string
+  imageUrl: string
   date?: string;
 }
 
 const PREFIX = "http://";
 
 const AnnounceCard: React.FC<CardComponent> = (props) => {
-  const { id, title, text, date, image_url } = props;
+  const { id, title, text, date, imageUrl } = props;
 
   const navigation = useNavigation();
 
@@ -42,7 +42,7 @@ const AnnounceCard: React.FC<CardComponent> = (props) => {
           width="176"
           height="190"
           source={{
-            uri: `${PREFIX + image_url}`
+            uri: `${PREFIX + imageUrl}`
           }}
         />
         <Title>{title}</Title>

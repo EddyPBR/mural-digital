@@ -1,22 +1,28 @@
-import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert, BeforeUpdate } from "typeorm";
+import { Schema, Document, model } from "mongoose";
 import bcrypt from "bcryptjs";
 
-@Entity("users")
-class User {
-  @PrimaryGeneratedColumn("uuid")
-  id: string;
-
-  @Column("text")
+interface User extends Document {
   email: string;
-
-  @Column("text")
   password: string;
-
-  @BeforeInsert() 
-  @BeforeUpdate()
-  hashPassword() {
-    this.password = bcrypt.hashSync(this.password, 8);
-  }
 }
 
-export default User;
+const UserSchema = new Schema({
+  email: {
+    type: String,
+    unique: true,
+    required: true,
+    lowercase: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+}).pre<User>("save", function (next) {
+  const user = this;
+
+  user.password = bcrypt.hashSync(this.password, 8);
+
+  next();
+});
+
+export default model<User>("User", UserSchema);

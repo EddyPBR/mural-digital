@@ -14,37 +14,44 @@ import api from "../../services/api";
 import formatDate from "../../utils/formatDate";
 
 interface Announce {
-  id: string,
-  title: string,
-  text: string,
-  image_url: string,
-  updated_at: string
+  _id: string;
+  title: string;
+  text: string;
+  imageUrl: string;
+  updatedAt: string;
 }
 
 const Billboard: React.FC = () => {
   const [announces, setAnnounces] = useState<Announce[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [status, setStatus] = useState("Carregando...")
+  const [status, setStatus] = useState("Carregando...");
 
   useEffect(() => {
-    api.get(`/billboard`)
-    .then(response => {
-      setAnnounces(response.data);
-      if(response.data.length === 0) {
-        setStatus("Ainda não temos anúncios cadastrados :(")
-      }
-    })
-    .catch(error => {
-      if(error.response.status === 500) {
-        return setStatus("Erro interno do servidor");
-      }
-      return setStatus("Erro desconhecido no sistema, por favor recarregue o app")
-    })
+    api
+      .get(`/billboard`)
+      .then((response) => {
+        setAnnounces(response.data);
+        if (response.data.length === 0) {
+          setStatus("Ainda não temos anúncios cadastrados :(");
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+        if(!error.response) {
+          return setStatus("Erro: o servidor não respondeu");
+        }
+        if (error.response.status === 500) {
+          return setStatus("Erro interno do servidor");
+        }
+        return setStatus(
+          "Erro desconhecido no sistema, por favor recarregue o app"
+        );
+      });
   }, []);
 
-  useEffect( () => {
-    if(Object.keys(announces).length) {
-      setIsLoading(false)
+  useEffect(() => {
+    if (Object.keys(announces).length) {
+      setIsLoading(false);
     }
   }, [announces]);
 
@@ -52,7 +59,7 @@ const Billboard: React.FC = () => {
     OpenSans: require("../../assets/fonts/OpenSans-Regular.ttf"),
   });
 
-  if (!loaded || isLoading ) {
+  if (!loaded || isLoading) {
     return (
       <Screen>
         <LoadingAnimation />
@@ -78,18 +85,16 @@ const Billboard: React.FC = () => {
           maxHeight: 368,
         }}
       >
-
-        {announces.map( (announce) => (
+        {announces.map((announce) => (
           <AnnounceCard
-            key={announce.id}
-            id={announce.id}
+            key={announce._id}
+            id={announce._id}
             title={announce.title}
             text={announce.text}
-            image_url={announce.image_url}
-            date={formatDate(announce.updated_at)}
+            imageUrl={announce.imageUrl}
+            date={formatDate(announce.updatedAt)}
           />
         ))}
-
       </ScrollView>
     </Screen>
   );

@@ -11,10 +11,10 @@ import api from "../../services/api";
 import formatDate from "../../utils/formatDate";
 
 interface Announce {
-  id: string,
-  title: string,
-  text: string,
-  updated_at: string
+  _id: string;
+  title: string;
+  text: string;
+  updatedAt: string;
 }
 
 const AnnounceList: React.FC = () => {
@@ -25,29 +25,32 @@ const AnnounceList: React.FC = () => {
   const formatedDate = formatDate;
 
   useEffect(() => {
-    api.get(`/billboard`)
-    .then(response => {
-      setAnnounces(response.data)
-      setIsLoading(false)
-    })
-    .catch(error => {
-      if(error.response.status === 500) {
-        return setStatus("Erro interno do servidor");
-      }
-      return setStatus("Erro desconhecido no sistema, por favor recarregue a página")
-    })
+    api
+      .get(`/billboard`)
+      .then((response) => {
+        setAnnounces(response.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        if (error.response.status === 500) {
+          return setStatus("Erro interno do servidor");
+        }
+        return setStatus(
+          "Erro desconhecido no sistema, por favor recarregue a página"
+        );
+      });
   }, []);
 
-  if(isLoading){
+  if (isLoading) {
     return (
       <LoadingPage>
         <BounceLoader size={160} color={"#E52F34"} />
         <Text>{status}</Text>
-        {
-          status !== "Carregando..." && <Link to="/admin">Recarregar página</Link>
-        }
+        {status !== "Carregando..." && (
+          <Link to="/admin">Recarregar página</Link>
+        )}
       </LoadingPage>
-    )
+    );
   }
 
   return (
@@ -74,12 +77,12 @@ const AnnounceList: React.FC = () => {
             </tr>
           </TableHeader>
           <TableBody>
-            {announces.map( (announce) => (
-              <TableRow 
-                key={announce.id}
-                id={announce.id}
+            {announces.map((announce) => (
+              <TableRow
+                key={announce._id}
+                id={announce._id}
                 title={announce.title}
-                date={formatedDate(announce.updated_at)}
+                date={formatedDate(announce.updatedAt)}
               />
             ))}
           </TableBody>
@@ -110,7 +113,6 @@ const Title = styled.h1`
   font: 700 3.6rem "Open Sans", sans-serif;
   color: var(--color-title);
   margin-bottom: 2rem;
-
   @media (max-width: 520px) {
     font-size: 2rem;
   }
@@ -128,7 +130,6 @@ const TableHeader = styled.thead`
   width: calc(100% - 16px);
   display: flex;
   justify-content: center;
-
   && > tr {
     height: 4rem;
     width: 100%;
@@ -136,11 +137,9 @@ const TableHeader = styled.thead`
     grid-template-columns: 2fr 2fr 1fr 1fr 1fr;
     gap: 3rem;
   }
-
   && > tr > th {
     font: 400 1.8rem/2.4rem "Roboto", sans-serif;
     color: var(--color-title);
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -171,34 +170,28 @@ const Button = styled.div`
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-
   &&:hover {
     filter: brightness(1.1);
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8);
   }
-
   && > a {
     width: 100%;
     height: 100%;
     text-decoration: none;
     font: 700 1.6rem "Open Sans", sans-serif;
     color: var(--color-background);
-
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
   }
-
   && > a > svg {
     margin-right: 0.8rem;
   }
-
   @media (max-width: 520px) {
     width: 14rem;
     height: 4.6rem;
@@ -228,14 +221,11 @@ const LoadingPage = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   animation: ${OpacityAnimation} 2s linear;
-
   && > p {
     margin-top: 3rem;
     margin-bottom: 1rem;
   }
-
   && > a {
     font: 400 1.8rem/3.2rem "Roboto", sans-serif;
     color: var(--color-secundary-light);

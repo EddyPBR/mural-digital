@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "648638459184",
+    "firebase_url": "https://mural-digital-58da7.firebaseio.com",
+    "project_id": "mural-digital-58da7",
+    "storage_bucket": "mural-digital-58da7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:648638459184:android:55d05f356be5fa16f82cf5",
+        "android_client_info": {
+          "package_name": "com.rallymotos.muraldigital"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "648638459184-gl77379o3p8q578nkj1f1brpt43oop23.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkmwcWG5t4EKNtC2nNKwCvfb0qGwMDYF4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "648638459184-gl77379o3p8q578nkj1f1brpt43oop23.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

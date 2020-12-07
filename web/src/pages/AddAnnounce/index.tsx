@@ -98,9 +98,9 @@ const AddAnnounce: React.FC = () => {
 
     const data = {
       title: frontTitle,
-      title_extended: textTitle,
+      extendedTitle: textTitle,
       text: text,
-      image_url: imageURL,
+      imageUrl: imageURL,
     };
 
     setIsLoading(true);
@@ -112,7 +112,11 @@ const AddAnnounce: React.FC = () => {
         },
       })
       .then((response) => {
-        setStatus("enviado com sucesso!");
+        if(response) {
+          setStatus("enviado com sucesso!");
+        } else {
+          return setStatus("Ops! ocorreu um erro inesperado, tente novamente :(");
+        }
       })
       .catch((error) => {
         if (error.response.status === 500) {
@@ -128,7 +132,7 @@ const AddAnnounce: React.FC = () => {
           setIsLoading(false);
           history.push("/admin");
         }, 4000);
-        return
+        return;
       });
   };
 
@@ -197,7 +201,7 @@ const AddAnnounce: React.FC = () => {
                       value={image.url}
                       onChange={(event) => onValueChange(event)}
                     />
-                    <img src={`${PREFIX}${image.url}`} alt={image.title} />
+                    <img src={`${PREFIX}://${image.url}`} alt={image.title} />
                   </Box>
                   <InputLegend>{image.title}</InputLegend>
                 </Radio>
@@ -219,7 +223,6 @@ const Announce = styled.div`
   display: flex;
   flex-direction: column;
   justify-items: center;
-
   @media (max-width: 1280px) {
     max-width: 90vw;
     width: 72rem;
@@ -235,7 +238,6 @@ const Title = styled.h1`
   color: var(--color-title);
   margin: 0;
   margin-bottom: 3rem;
-
   @media (max-width: 520px) {
     font-size: 2rem;
   }
@@ -245,7 +247,6 @@ const AnnounceForm = styled.form`
   display: grid;
   grid-template-columns: 47rem 68rem;
   column-gap: 2rem;
-
   @media (max-width: 1280px) {
     max-width: 90vw;
     width: 100%;
@@ -253,7 +254,6 @@ const AnnounceForm = styled.form`
     flex-direction: column;
     justify-items: center;
     align-self: center;
-
     && > div:last-child {
       margin-bottom: 0;
     }
@@ -265,7 +265,6 @@ const Column = styled.div`
   max-width: 100%;
   display: flex;
   flex-direction: column;
-
   @media (max-width: 1280px) {
     margin-bottom: 3rem;
   }
@@ -277,7 +276,6 @@ const Legend = styled.h2`
   margin: 0;
   margin-bottom: 0.5rem;
   margin-left: 1rem;
-
   @media (max-width: 1280px) {
     margin-bottom: 2rem;
   }
@@ -289,7 +287,6 @@ const Warning = styled.h2`
   margin: 0;
   margin-bottom: 0.5rem;
   margin-left: 1rem;
-
   @media (max-width: 1280px) {
     margin-bottom: 2rem;
   }
@@ -301,14 +298,12 @@ const List = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
   justify-items: center;
-
   @media (max-width: 520px) {
     display: flex;
     flex-direction: row;
     align-items: center;
     overflow-y: scroll;
   }
-
   && > fieldset {
     margin: 0 1rem 4rem 1rem;
   }
@@ -331,18 +326,15 @@ const Button = styled.button`
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-
   &&:hover {
     filter: brightness(1.2);
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
   }
-
   @media (max-width: 1280px) {
     max-width: 90vw;
     width: 32rem;
     align-self: center;
   }
-
   @media (max-width: 520px) {
     font-size: 1.6rem;
   }
@@ -369,14 +361,11 @@ const LoadingPage = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   animation: ${OpacityAnimation} 2s linear;
-
   && > p {
     margin-top: 3rem;
     margin-bottom: 1rem;
   }
-
   && > a {
     font: 400 1.8rem/3.2rem "Roboto", sans-serif;
     color: var(--color-secundary-light);
@@ -398,7 +387,6 @@ const Box = styled.label`
   height: 20rem;
   border-radius: 5px;
   cursor: pointer;
-
   && > img {
     width: 100%;
     height: 100%;
@@ -406,14 +394,12 @@ const Box = styled.label`
     background: #fafafa;
     border: 1px solid #c8c9df;
   }
-
   && > input[type="radio"] {
     position: absolute;
     opacity: 0;
     width: 0;
     height: 0;
   }
-
   && > input[type="radio"]:checked ~ img {
     background: #e3f1e5;
     border: 1px solid #1ff20d;

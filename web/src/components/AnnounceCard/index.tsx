@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { useHistory } from "react-router-dom";
 
 import styled from "styled-components";
@@ -17,34 +17,33 @@ const AnnounceCard: React.FC<CardComponent> = (props) => {
 
   const handleNavigateToAnnounce = () => {
     return history.push(`/announces/${id}`);
-  }
+  };
 
-  return(
+  return (
     <Card onClick={() => handleNavigateToAnnounce()}>
       <Title>{title}</Title>
       <Text>{text}</Text>
       <Date>{date}</Date>
     </Card>
   );
-}
+};
 
 const Card = styled.div`
   width: 100%;
   max-width: 38rem;
   min-width: 32rem;
   max-height: 24rem;
-  background: #FFFFFF;
+  background: #ffffff;
   padding: 2rem 1.8rem;
   border-radius: 0 1rem 1rem 0rem;
-  border-left: solid .5rem var(--color-primary);
+  border-left: solid 0.5rem var(--color-primary);
   filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
-  transition: border-left .2s, padding-left .2s, filter .2s, transform .2s;
-
+  transition: border-left 0.2s, padding-left 0.2s, filter 0.2s, transform 0.2s;
   &&:hover {
     cursor: pointer;
     border-left: solid 1rem var(--color-primary);
     padding-left: 1.3rem;
-    filter: drop-shadow(4px 4px 6px rgba(0, 0, 0, .25));
+    filter: drop-shadow(4px 4px 6px rgba(0, 0, 0, 0.25));
     transform: scale(1.004);
   }
 `;

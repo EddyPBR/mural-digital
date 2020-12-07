@@ -1,120 +1,86 @@
 import { Request, Response } from "express";
-import { getRepository } from "typeorm";
+
+import bcrypt from "bcryptjs";
 
 import User from "@models/UserModel";
 
-import verifyObjectValues from "../utils/verifyObjectValues";
-
 class UserController {
   async index(request: Request, response: Response) {
-    const repository = getRepository(User);
-
     const { id } = request.params;
 
     try {
-      const query = id ? [await repository.findOne(id)] : await repository.find();
+      const users = id ? await User.findOne({ _id: id }) : await User.find();
 
-      if(!query) { 
-        return response.sendStatus(404);
+      if (!users) {
+        return response.status(404).json({ error: "nenhum usuário encontrado" });
       }
 
-      const users = query.map((data) => ({
-        id: `${data?.id || "null"}`,
-        email: `${data?.email || "null"}`,
-      }));
-
-      return response.json(users);
-    } catch {
-      return response.status(500);
+      return response.status(200).json(users);
+    } catch (error) {
+      return response.status(400).json({ error: "foi identificado um erro desconhecido" });
     }
   }
 
   async create(request: Request, response: Response) {
-    const repository = getRepository(User);
     const { email, password } = request.body;
 
-    const data = {
-      email,
-      password,
-    };
+    const userExists = await User.findOne({ email });
 
-    if (verifyObjectValues(data) === false) {
-      return response.sendStatus(400);
+    if (userExists) {
+      return response.status(409).send({ error: "Usuário já cadastrado" });
     }
 
-    const userExists = await repository.findOne({ where: { email } });
-
-    if (userExists) return response.sendStatus(409);
-
     try {
-      const user = repository.create({
+      const user = await User.create({
         email,
         password,
       });
-
-      await repository.save(user);
-
-      return response.json({
-        id: user.id,
-        email: user.email,
+      return response.status(200).json(user);
+    } catch (error) {
+      return response.status(400).json({
+        message: error,
       });
-    } catch {
-      return response.sendStatus(500);
     }
   }
 
   async update(request: Request, response: Response) {
-    const repository = getRepository(User);
     const { email, password } = request.body;
-    const id = request.params;
+    const { id } = request.params;
 
-    const exists = await repository.findOne(id);
-    if (!exists) {
-      return response.sendStatus(404);
-    }
-
-    const data = {
-      email,
-      password,
-    };
-
-    if (verifyObjectValues(data) === false) {
-      return response.sendStatus(400);
+    try {
+      await User.findOne({ _id: id });
+    } catch(error) {
+      return response.status(404).json({ error: "Usuário não encontrado" });
     }
 
     try {
-      const user = repository.create({
+      await User.findByIdAndUpdate({ _id: id}, { 
         email,
-        password,
+        password: bcrypt.hashSync(password, 8)
       });
 
-      await repository.update(id, user);
+      const updatedUser = await User.findById({ _id: id });
 
-      const newBillboard = await repository.findOne(id);
-
-      return response.status(200).json(newBillboard);
-    } catch {
-      return response.status(500);
+      return response.status(200).json(updatedUser);
+    } catch(error) {
+      return response.status(500).json({ error: "Não foi possivel atualizar o usuário" });
     }
   }
 
   async delete(request: Request, response: Response) {
-    const repository = getRepository(User);
     const { id } = request.params;
 
-    const exists = await repository.findOne(id);
-    if (!exists) {
-      return response.sendStatus(404);
+    try {
+      await User.findOne({ _id: id });
+    } catch(error) {
+      return response.status(404).json({ error: "Usuário não encontrado" });
     }
 
     try {
-      await repository.delete(id);
-      return response.status(200).json({
-        id: exists.id,
-        email: exists.email,
-      });
-    } catch {
-      return response.sendStatus(500);
+      const updatedUser = await User.findByIdAndDelete({ _id: id });
+      return response.status(200).json(updatedUser);
+    } catch(error) {
+      return response.status(500).json({ error: "Não foi possivel remover o usuário" });
     }
   }
 }

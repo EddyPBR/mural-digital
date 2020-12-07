@@ -12,42 +12,49 @@ import api from "../../services/api";
 import formatDate from "../../utils/formatDate";
 
 interface Announce {
-  id: string,
-  title: string,
-  text: string,
-  updated_at: string
+  _id: string;
+  title: string;
+  text: string;
+  updatedAt: string;
 }
 
 const Billboard: React.FC = () => {
   const [announces, setAnnounces] = useState<Announce[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [status, setStatus] = useState("Carregando...")
+  const [status, setStatus] = useState("Carregando...");
 
   useEffect(() => {
-    api.get(`/billboard`)
-    .then(response => {
-      setAnnounces(response.data);
-      if(response.data.length === 0) {
-        setStatus("Ainda não temos anúncios cadastrados :(")
-      }
-    })
-    .catch(error => {
-      if(error.response.status === 500) {
-        return setStatus("Erro interno do servidor");
-      }
-      return setStatus("Erro desconhecido no sistema, por favor recarregue a página")
-    })
+    api
+      .get(`/billboard`)
+      .then((response) => {
+        setAnnounces(response.data);
+        if (response.data.length === 0) {
+          setStatus("Ainda não temos anúncios cadastrados :(");
+        }
+      })
+      .catch((error) => {
+        if (!error.response) {
+          return setStatus("Servidor não está online");
+        }
+        if (error.response.status === 500) {
+          return setStatus("Erro interno do servidor");
+        }
+        return setStatus("Erro desconhecido tente recarregar a página");
+      });
   }, []);
 
-  useEffect( () => {
-    if(Object.keys(announces).length) {
-      setIsLoading(false)
+  useEffect(() => {
+    if (Object.keys(announces).length) {
+      setIsLoading(false);
     }
   }, [announces]);
 
   return (
     <Container>
-      <WomanImage src={woman} alt="Mulher de costas selecionando janelas em um website" />
+      <WomanImage
+        src={woman}
+        alt="Mulher de costas selecionando janelas em um website"
+      />
       <Main>
         <Title>Rally Motos - Quadro de avisos</Title>
         <Text>
@@ -56,20 +63,19 @@ const Billboard: React.FC = () => {
         </Text>
       </Main>
       <Carousel>
-        {
-          isLoading && 
+        {isLoading && (
           <LoaderArea>
             <HashLoader size={100} color={"#E52F34"} />
             <Text>{status}</Text>
           </LoaderArea>
-        }
-        {announces.map( (announce) => (
+        )}
+        {announces.map((announce) => (
           <AnnounceCard
-            key={announce.id}
-            id={announce.id}
+            key={announce._id}
+            id={announce._id}
             title={announce.title}
             text={announce.text}
-            date={formatDate(announce.updated_at)}
+            date={formatDate(announce.updatedAt)}
           />
         ))}
       </Carousel>
@@ -86,11 +92,11 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
 
-  @media(max-width: 1280px) {
+  @media (max-width: 1280px) {
     justify-content: space-between;
   }
 
-  @media(max-width: 1024px) {
+  @media (max-width: 1024px) {
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -103,14 +109,14 @@ const Container = styled.div`
 
 const Main = styled.main`
   width: 90vw;
-  max-width: 43.0rem;
+  max-width: 43rem;
   margin-right: 15rem;
 
-  @media(max-width: 1280px) {
+  @media (max-width: 1280px) {
     margin-right: 15rem;
   }
 
-  @media(max-width: 1024px) {
+  @media (max-width: 1024px) {
     justify-items: center;
     text-align: center;
     margin-right: 0;
@@ -129,7 +135,7 @@ const Title = styled.h1`
   color: var(--color-title);
   margin-top: 0;
 
-  @media(max-width: 1024px) {
+  @media (max-width: 1024px) {
     margin-top: 3rem;
   }
 `;
@@ -147,12 +153,12 @@ const WomanImage = styled.img`
   width: 90vw;
   max-width: 52.2rem;
 
-  @media(max-width: 1360px){
+  @media (max-width: 1360px) {
     left: 1rem;
     right: unset;
   }
 
-  @media(max-width: 1024px) {
+  @media (max-width: 1024px) {
     position: inherit;
     margin-right: 0;
   }
@@ -161,7 +167,7 @@ const WomanImage = styled.img`
     top: 50%;
     margin-top: -10rem;
   }
-`
+`;
 
 const GuyImage = styled.img`
   position: absolute;
@@ -169,9 +175,9 @@ const GuyImage = styled.img`
   left: 50%;
   margin-left: 440px;
   top: 24rem;
-  width: 19.0rem;
+  width: 19rem;
 
-  @media(max-width: 1280px) {
+  @media (max-width: 1280px) {
     display: none;
   }
 
@@ -184,14 +190,14 @@ const GuyImage = styled.img`
 const Carousel = styled.div`
   height: 100vh;
   max-height: 62rem;
-  width: 41.0rem;
+  width: 41rem;
   overflow-y: scroll;
 
   && > div {
     margin: 3rem 0 3rem 0;
   }
 
-  @media(max-width: 1024px){
+  @media (max-width: 1024px) {
     width: 100%;
     max-width: 72.4rem;
     max-height: 30rem;
@@ -204,11 +210,11 @@ const Carousel = styled.div`
     overflow-x: scroll;
 
     && > div {
-      margin: .5rem 1.5rem .5rem 1.5rem;
+      margin: 0.5rem 1.5rem 0.5rem 1.5rem;
     }
   }
 
-  @media(max-width: 1024px) and (min-height: 740px) {
+  @media (max-width: 1024px) and (min-height: 740px) {
     height: 100%;
     margin-top: 6rem;
   }
@@ -233,7 +239,7 @@ const LoaderArea = styled.div`
 
   animation: ${OpacityAnimation} 2s linear;
 
-  @media(max-width: 1024px) {
+  @media (max-width: 1024px) {
     height: 22rem;
   }
 
@@ -241,7 +247,6 @@ const LoaderArea = styled.div`
     margin-top: 3rem;
     margin-bottom: 1rem;
   }
-
-`
+`;
 
 export default Billboard;

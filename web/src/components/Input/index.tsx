@@ -78,7 +78,6 @@ const InputPlace = styled.input<LabelProps>`
   color: var(--color-text);
   padding: 0.8rem;
   font: 400 1.4rem "Roboto", sans-serif;
-
   &&:focus {
     border: 1px solid #a5cce8;
     background-color: #fff;

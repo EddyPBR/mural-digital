@@ -1,12 +1,31 @@
 {
-  "name": "mobile",
-  "displayName": "mobile",
+  "name": "rally-motos mural",
+  "displayName": "rally-motos mural",
   "expo": {
-    "name": "mobile",
-    "slug": "mobile",
+    "name": "rally-motos mural",
+    "slug": "mural",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "platforms": [
+      "android"
+    ],
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#EFF3F3"
+    },
+    "android": {
+      "package": "com.rallymotos.muraldigital",
+      "versionCode": 1,
+      "googleServicesFile": "./google-services.json",
+      "useNextNotificationsApi": true
+    },
+    "androidStatusBar": {
+      "backgroundColor": "#E32F34",
+      "barStyle": "light-content"
+    }
   }
 }
