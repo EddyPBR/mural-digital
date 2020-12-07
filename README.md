@@ -49,8 +49,8 @@ Este projeto não é nada muito complexo, dentre as tecnologias utilizadas estã
 ## :package: Funcionamento do sistema
 <br />
 
-Primeiramente o sistema esta dividido em três partes, sendo elas: backend, web e finalmente o mobile.
-Cada parte do projeto é destinada a uma ação mais especifica. O backend por exemplo é uma API REST ou seja
+Primeiramente o sistema esta dividido em três partes, sendo elas: server, web e finalmente o mobile.
+Cada parte do projeto é destinada a uma ação mais especifica. O server por exemplo é uma API REST ou seja
 é o responsavel por lidar com as requisições e consultas ao banco de dados.
 
 O Web é o responsavel primeiramente pela administração com sua rota: dominio/admin que permite usuarios
@@ -66,11 +66,11 @@ bem como gerar notificações de novos anuncios que acabam de ser cadastrados no
 <br />
 
 Para colocar o projeto rodando, você pode ler o README.md de cada divisão deste projeto,
-e seguir o passo a passo de como colocar para rodar o projeto. O backend tambem conta com
+e seguir o passo a passo de como colocar para rodar o projeto. O server tambem conta com
 um arquivo do aplicativo [insomnia](https://insomnia.rest/download/) para testes, caso 
 tenha interesse basta olhar as três documentações a seguir:
 
-- [backend](./backend/README.md)
+- [server](./server/README.md)
 - [web](./web/README.md)
 - [mobile](./mobile/README.md)
 
