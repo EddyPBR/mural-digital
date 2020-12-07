@@ -40,13 +40,39 @@ Este projeto não é nada muito complexo, dentre as tecnologias utilizadas estã
 - [React-Native](https://reactnative.dev/)
 - [Expo](https://expo.io/)
 - [Express](https://expressjs.com/pt-br/)
-- [TypeORM](https://typeorm.io/)
-- [MySQL](https://www.mysql.com/)
-- [Docker](https://www.docker.com/)
+- [mongoDB](https://www.mongodb.com/)
 - [Styled-Components](https://styled-components.com/)
 - [Figma](https://www.figma.com/)
-- [ESLint](https://eslint.org/)
-- [Prettier](https://prettier.io/)
+
+<br />
+
+## :package: Funcionamento do sistema
+<br />
+
+Primeiramente o sistema esta dividido em três partes, sendo elas: backend, web e finalmente o mobile.
+Cada parte do projeto é destinada a uma ação mais especifica. O backend por exemplo é uma API REST ou seja
+é o responsavel por lidar com as requisições e consultas ao banco de dados.
+
+O Web é o responsavel primeiramente pela administração com sua rota: dominio/admin que permite usuarios
+cadastrados adicionar, editar ou remover os anuncios do sistema. Além disso, o projeto web tambem conta com
+uma parte destinada ao usuario comum para visualização dos novos anuncios cadastrados.
+
+Por fim o mobile que é o responsavel pela demonstração de todos os anuncios cadastrados pelo app,
+bem como gerar notificações de novos anuncios que acabam de ser cadastrados no sistema.
+
+<br />
+
+## :wrench: Colocando o projeto para rodar
+<br />
+
+Para colocar o projeto rodando, você pode ler o README.md de cada divisão deste projeto,
+e seguir o passo a passo de como colocar para rodar o projeto. O backend tambem conta com
+um arquivo do aplicativo [insomnia](https://insomnia.rest/download/) para testes, caso 
+tenha interesse basta olhar as três documentações a seguir:
+
+- [backend](./backend/README.md)
+- [web](./web/README.md)
+- [mobile](./mobile/README.md)
 
 <br />
 
