@@ -1,6 +1,6 @@
 <h1 align="center">
     <img alt="mural digital" src=".github/icone.png" height="320px" /> <br /> <br />
-    Node.js | React JS | MySQL
+    Node.js | React JS | MongoDB
 </h1>
 
 <p align="center">
