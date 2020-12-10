@@ -46,7 +46,7 @@ Observe a saida no terminal para verificar se o sistema esta rodando perfeitamen
 `CAMINHO /`
 
 <p align="center">
-  <img alt="mural-digital" src=".github/home.png" />
+  <img alt="mural-digital" src="../.github/home.png" />
 </p>
 <br />
 
@@ -55,7 +55,7 @@ Observe a saida no terminal para verificar se o sistema esta rodando perfeitamen
 `CAMINHO /announces/:id`
 
 <p align="center">
-  <img alt="mural-digital" src=".github/anuncio.png" />
+  <img alt="mural-digital" src="../.github/anuncio.png" />
 </p>
 <br />
 <br />
@@ -67,7 +67,7 @@ Observe a saida no terminal para verificar se o sistema esta rodando perfeitamen
 `CAMINHO /admin`
 
 <p align="center">
-  <img alt="mural-digital" src=".github/login-admin.png" />
+  <img alt="mural-digital" src="../.github/login-admin.png" />
 </p>
 <br />
 
@@ -75,7 +75,7 @@ Observe a saida no terminal para verificar se o sistema esta rodando perfeitamen
 
 `CAMINHO /admin/announces`
 <p align="center">
-  <img alt="mural-digital" src=".github/lista-de-anuncios.png" />
+  <img alt="mural-digital" src="../.github/lista-de-anuncios.png" />
 </p>
 <br />
 
@@ -83,7 +83,7 @@ Observe a saida no terminal para verificar se o sistema esta rodando perfeitamen
 
 `CAMINHO /admin/announces/add`
 <p align="center">
-  <img alt="mural-digital" src=".github/cadastro.png" />
+  <img alt="mural-digital" src="../.github/cadastro.png" />
 </p>
 <br />
 
@@ -91,7 +91,7 @@ Observe a saida no terminal para verificar se o sistema esta rodando perfeitamen
 
 `CAMINHO /admin/announces/update`
 <p align="center">
-  <img alt="mural-digital" src=".github/cadastro.png" />
+  <img alt="mural-digital" src="../.github/cadastro.png" />
 </p>
 <br />
 
@@ -99,7 +99,7 @@ Observe a saida no terminal para verificar se o sistema esta rodando perfeitamen
 
 `CAMINHO /admin/announces/delete`
 <p align="center">
-  <img alt="mural-digital" src=".github/deletar.png" />
+  <img alt="mural-digital" src="../.github/deletar.png" />
 </p>
 <br />
 
