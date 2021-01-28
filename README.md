@@ -13,7 +13,7 @@
 
 ## :bookmark: O problema
 
-Na Rally Motos importora e distribuidora, os avisos são colocados em um quadro que fica localizado próximo a entrada do
+Na Rally Motos importadora e distribuidora, os avisos são colocados em um quadro que fica localizado próximo a entrada do
 estabelecimento, o intuíto é de que todos vissem os avisos do RH e Diretória da empresa assim que entrassem, mas não é
 o que acontece. Muitos na correria do dia nem se quer olham para os avisos, o que por sua vez pode vir a causar ruídos
 na comunicação empresa - funcionário.
